@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Edukasi Anak - Tebak Gambar dan Tebak Suara</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/game.css">
+</head>
+<body>
+    <header>
+        <h1>Game Edukasi Anak</h1>
+    </header>
+    
+    <div class="container">
+        <!-- Menu Utama -->
+        <div class="main-menu" id="main-menu">
+            <h2>Pilih Mode Permainan</h2>
+            <div class="game-buttons">
+                <button class="game-button" id="tebak-gambar">
+                    <img src="assets/icons/image-icon.png" alt="Ikon Tebak Gambar">
+                    Tebak Gambar
+                </button>
+                <button class="game-button" id="tebak-suara">
+                    <img src="assets/icons/sound-icon.png" alt="Ikon Tebak Suara">
+                    Tebak Suara
+                </button>
+            </div>
+        </div>
+        
+        <!-- Area Permainan Tebak Gambar -->
+        <div class="game-area hidden" id="tebak-gambar-area">
+            <button class="back-button">Kembali ke Menu</button>
+            <h2>Tebak Gambar</h2>
+            <p>Apa nama objek pada gambar di bawah ini?</p>
+            <div class="score-display">Skor: <span id="image-score">0</span></div>
+            <img class="question-image" id="question-image" src="" alt="Gambar Tebakan">
+            <div class="options" id="image-options"></div>
+            <div class="feedback" id="image-feedback"></div>
+        </div>
+        
+        <!-- Area Permainan Tebak Suara -->
+        <div class="game-area hidden" id="tebak-suara-area">
+            <button class="back-button">Kembali ke Menu</button>
+            <h2>Tebak Suara</h2>
+            <p>Dengarkan suara dan tebak apa itu:</p>
+            <div class="score-display">Skor: <span id="sound-score">0</span></div>
+            <button class="play-sound-button" id="play-sound">
+                ▶️
+            </button>
+            <div class="options" id="sound-options"></div>
+            <div class="feedback" id="sound-feedback"></div>
+        </div>
+    </div>
+    
+    <footer>
+        Game Edukasi &copy; 2025
+    </footer>
+    
+    <!-- Script -->
+    <script src="js/data.js"></script>
+    <script src="js/imageGame.js"></script>
+    <script src="js/soundGame.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
