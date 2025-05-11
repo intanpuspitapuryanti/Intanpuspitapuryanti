@@ -1,66 +1,108 @@
 <!DOCTYPE html>
+
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Game Edukasi Anak - Tebak Gambar dan Tebak Suara</title>
-    <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="css/game.css">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Game Edukasi Hewan untuk Anak-anak</title>
+
+<link href="style.css" rel="stylesheet"/>
 </head>
 <body>
-    <header>
-        <h1>Game Edukasi Anak</h1>
-    </header>
-    
-    <div class="container">
-        <!-- Menu Utama -->
-        <div class="main-menu" id="main-menu">
-            <h2>Pilih Mode Permainan</h2>
-            <div class="game-buttons">
-                <button class="game-button" id="tebak-gambar">
-                    <img src="assets/icons/image-icon.png" alt="Ikon Tebak Gambar">
-                    Tebak Gambar
-                </button>
-                <button class="game-button" id="tebak-suara">
-                    <img src="assets/icons/sound-icon.png" alt="Ikon Tebak Suara">
-                    Tebak Suara
-                </button>
-            </div>
-        </div>
-        
-        <!-- Area Permainan Tebak Gambar -->
-        <div class="game-area hidden" id="tebak-gambar-area">
-            <button class="back-button">Kembali ke Menu</button>
-            <h2>Tebak Gambar</h2>
-            <p>Apa nama objek pada gambar di bawah ini?</p>
-            <div class="score-display">Skor: <span id="image-score">0</span></div>
-            <img class="question-image" id="question-image" src="" alt="Gambar Tebakan">
-            <div class="options" id="image-options"></div>
-            <div class="feedback" id="image-feedback"></div>
-        </div>
-        
-        <!-- Area Permainan Tebak Suara -->
-        <div class="game-area hidden" id="tebak-suara-area">
-            <button class="back-button">Kembali ke Menu</button>
-            <h2>Tebak Suara</h2>
-            <p>Dengarkan suara dan tebak apa itu:</p>
-            <div class="score-display">Skor: <span id="sound-score">0</span></div>
-            <button class="play-sound-button" id="play-sound">
-                ▶️
-            </button>
-            <div class="options" id="sound-options"></div>
-            <div class="feedback" id="sound-feedback"></div>
+<div class="container bubble-effect" id="main-container">
+    <!-- Menu utama akan ditampilkan di sini -->
+    <div id="main-menu">
+        <h1>Game Edukasi Hewan untuk Anak-anak</h1>
+        <div class="menu-options">
+            <button class="menu-button" id="tebak-gambar-btn">Tebak Gambar</button>
+            <button class="menu-button" id="tebak-suara-btn">Tebak Suara</button>
         </div>
     </div>
-    
-    <footer>
-        Game Edukasi &copy; 2025
-    </footer>
-    
-    <!-- Script -->
-    <script src="js/data.js"></script>
-    <script src="js/imageGame.js"></script>
-    <script src="js/soundGame.js"></script>
-    <script src="js/main.js"></script>
+
+    <!-- Kuis tebak gambar -->
+    <div id="kuis-tebak-gambar" style="display: none;">
+        <h1>Kuis Tebak Gambar</h1>
+        <div class="progress-container">
+            <div class="progress-bar" id="progress-gambar"></div>
+        </div>
+        <div class="question-container" id="question-container-gambar">
+            <div class="question-text" id="question-text-gambar">Pertanyaan di sini</div>
+            <img alt="Gambar hewan" class="question-image" id="question-image" src=""/>
+            <div class="options" id="options-gambar">
+                <!-- Opsi jawaban akan ditampilkan di sini -->
+            </div>
+        </div>
+        <div class="feedback" id="feedback-gambar">
+            <!-- Feedback akan ditampilkan di sini -->
+        </div>
+        <div class="score" id="score-gambar">Skor: 0</div>
+        <div class="control-buttons">
+            <button class="control-button" id="next-button-gambar" style="display: none;">Pertanyaan Berikutnya</button>
+            <button class="control-button" id="restart-button-gambar" style="display: none;">Mulai Ulang</button>
+            <button class="control-button" id="menu-button-gambar">Menu Utama</button>
+        </div>
+    </div>
+
+    <!-- Kuis tebak suara -->
+    <div id="kuis-tebak-suara" style="display: none;">
+        <h1>Kuis Tebak Suara</h1>
+        <div class="progress-container">
+            <div class="progress-bar" id="progress-suara"></div>
+        </div>
+        <div class="question-container" id="question-container-suara">
+            <div class="question-text" id="question-text-suara">Suara hewan apa ini?</div>
+            <div class="audio-player">
+                <button class="play-button" id="play-sound-button">
+                    <img src="assets/images/play-icon.png" alt="Play" id="play-icon" class="play-icon">
+                </button>
+                <div class="audio-visualizer">
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                </div>
+            </div>
+            <div class="options" id="options-suara">
+                <!-- Opsi jawaban akan ditampilkan di sini -->
+            </div>
+        </div>
+        <div class="feedback" id="feedback-suara">
+            <!-- Feedback akan ditampilkan di sini -->
+        </div>
+        <div class="score" id="score-suara">Skor: 0</div>
+        <div class="control-buttons">
+            <button class="control-button" id="next-button-suara" style="display: none;">Pertanyaan Berikutnya</button>
+            <button class="control-button" id="restart-button-suara" style="display: none;">Mulai Ulang</button>
+            <button class="control-button" id="menu-button-suara">Menu Utama</button>
+        </div>
+    </div>
+</div>
+
+<div class="music-controls">
+    <button class="music-button" id="music-toggle">♫</button>
+    <span>Musik</span>
+</div>
+
+<!-- Audio untuk tebak gambar -->
+<audio id="correct-sound" preload="auto">
+    <source src="assets/audio/correct.mp3" type="audio/mpeg"/>
+</audio>
+<audio id="incorrect-sound" preload="auto">
+    <source src="assets/audio/incorrect.mp3" type="audio/mpeg"/>
+</audio>
+<audio id="bg-music" loop="" preload="auto">
+    <source src="assets/audio/bgmusic.mp3" type="audio/mpeg"/>
+</audio>
+<audio id="hover-sound" preload="auto">
+    <source src="assets/audio/hover.mp3" type="audio/mpeg"/>
+</audio>
+
+<!-- Audio untuk tebak suara -->
+<audio id="animal-sound" preload="auto">
+    <source src="" type="audio/mpeg"/>
+</audio>
+
+<script src="script.js"></script>
 </body>
 </html>
