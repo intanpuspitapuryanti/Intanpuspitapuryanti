@@ -1,106 +1,114 @@
-// Variabel state untuk game Tebak Gambar
+// Data for Tebak Gambar game
+const tebakGambarData = [
+    {
+        image: 'assets/images/kucing.jpg',
+        correctAnswer: 'Kucing',
+        options: ['Kucing', 'Anjing', 'Kelinci', 'Harimau']
+    },
+    {
+        image: 'assets/images/gajah.jpg',
+        correctAnswer: 'Gajah',
+        options: ['Gajah', 'Jerapah', 'Kuda', 'Singa']
+    },
+    {
+        image: 'assets/images/pisang.jpg',
+        correctAnswer: 'Pisang',
+        options: ['Pisang', 'Apel', 'Jeruk', 'Mangga']
+    },
+    {
+        image: 'assets/images/mobil.jpg',
+        correctAnswer: 'Mobil',
+        options: ['Mobil', 'Sepeda', 'Pesawat', 'Kapal']
+    },
+    {
+        image: 'assets/images/rumah.jpg',
+        correctAnswer: 'Rumah',
+        options: ['Rumah', 'Sekolah', 'Toko', 'Kantor']
+    },
+    {
+        image: 'assets/images/ayam.jpg',
+        correctAnswer: 'Ayam',
+        options: ['Ayam', 'Bebek', 'Angsa', 'Burung']
+    },
+    {
+        image: 'assets/images/bola.jpg',
+        correctAnswer: 'Bola',
+        options: ['Bola', 'Raket', 'Buku', 'Pensil']
+    },
+    {
+        image: 'assets/images/bunga.jpg',
+        correctAnswer: 'Bunga',
+        options: ['Bunga', 'Pohon', 'Rumput', 'Daun']
+    }
+];
+
+// Game state variables
 let currentGambarIndex = 0;
 let gambarScore = 0;
 let gambarShuffledData = [];
 
-// Inisialisasi game Tebak Gambar
+// Initialize Tebak Gambar game
 function initializeTebakGambar() {
-    console.log('Initializing Tebak Gambar game...');
-    
-    // Cek ketersediaan data
-    if (!tebakGambarData || !Array.isArray(tebakGambarData) || tebakGambarData.length === 0) {
-        console.error('Error: Tebak Gambar data not available or empty!');
-        return;
-    }
-    
-    // Acak urutan data game untuk setiap sesi bermain
+    // Shuffle the game data array to have random order for each game session
     gambarShuffledData = shuffleArray(tebakGambarData);
     currentGambarIndex = 0;
     gambarScore = 0;
     
-    // Update tampilan skor
+    // Update score display
     const scoreElement = document.getElementById('gambar-score');
-    if (scoreElement) {
-        updateScore(scoreElement, gambarScore);
-    } else {
-        console.error('Error: gambar-score element not found!');
-    }
+    updateScore(scoreElement, gambarScore);
     
-    // Tampilkan pertanyaan pertama
+    // Display first question
     displayGambarQuestion(currentGambarIndex);
     
-    // Tambahkan event listener untuk tombol "Next"
-    const nextButton = document.getElementById('next-gambar');
-    if (nextButton) {
-        // Hapus event listener yang lama untuk menghindari duplikasi
-        nextButton.removeEventListener('click', nextGambarQuestion);
-        nextButton.addEventListener('click', nextGambarQuestion);
-        console.log('Next button event listener added for Tebak Gambar');
-    } else {
-        console.error('Error: next-gambar button not found!');
-    }
+    // Add event listener to "Next" button
+    document.getElementById('next-gambar').addEventListener('click', nextGambarQuestion);
 }
 
-// Tampilkan pertanyaan saat ini
+// Display current question
 function displayGambarQuestion(index) {
-    console.log(`Displaying Tebak Gambar question index: ${index}`);
-    
     if (index >= gambarShuffledData.length) {
-        // Akhir game, mulai ulang
+        // End of game, restart
         endTebakGambar();
         return;
     }
     
     const currentQuestion = gambarShuffledData[index];
     
-    // Update gambar
+    // Update image
     const imageElement = document.getElementById('gambar-tebakan');
-    if (imageElement) {
-        imageElement.src = currentQuestion.image;
-        imageElement.alt = 'Tebak gambar ini';
-        console.log(`Set image source to: ${currentQuestion.image}`);
-    } else {
-        console.error('Error: gambar-tebakan element not found!');
-    }
+    imageElement.src = currentQuestion.image;
+    imageElement.alt = 'Tebak gambar ini';
     
-    // Buat opsi yang diacak
+    // Create shuffled options
     const shuffledOptions = shuffleArray(currentQuestion.options);
     
-    // Buat tombol-tombol opsi
+    // Create option buttons
     createOptionButtons(shuffledOptions, 'gambar-options', handleGambarOptionClick);
     
-    // Bersihkan feedback sebelumnya
+    // Clear previous feedback
     const feedbackElement = document.getElementById('gambar-feedback');
-    if (feedbackElement) {
-        feedbackElement.textContent = '';
-        feedbackElement.className = 'feedback';
-    } else {
-        console.error('Error: gambar-feedback element not found!');
-    }
+    feedbackElement.textContent = '';
+    feedbackElement.className = 'feedback';
     
-    // Sembunyikan tombol Next sampai jawaban dipilih
-    const nextButton = document.getElementById('next-gambar');
-    if (nextButton) {
-        nextButton.style.display = 'none';
-    } else {
-        console.error('Error: next-gambar button not found!');
-    }
+    // Hide Next button until answer is selected
+    document.getElementById('next-gambar').style.display = 'none';
 }
 
-// Tangani klik pada opsi
+// Handle option click
 function handleGambarOptionClick(event) {
+    // Get selected option
     const selectedOption = event.target.textContent;
     const currentQuestion = gambarShuffledData[currentGambarIndex];
+    const feedbackElement = document.getElementById('gambar-feedback');
     const isCorrect = selectedOption === currentQuestion.correctAnswer;
     
-    console.log(`Option clicked: ${selectedOption}, Correct answer: ${currentQuestion.correctAnswer}, isCorrect: ${isCorrect}`);
-    
-    // Nonaktifkan semua tombol opsi
+    // Disable all option buttons
     const optionButtons = document.querySelectorAll('#gambar-options .option-btn');
     optionButtons.forEach(button => {
         button.disabled = true;
         
-        // Sorot jawaban benar dan salah
+        // Highlight correct and incorrect answers
         if (button.textContent === currentQuestion.correctAnswer) {
             button.classList.add('correct');
         } else if (button.textContent === selectedOption && !isCorrect) {
@@ -108,69 +116,65 @@ function handleGambarOptionClick(event) {
         }
     });
     
-    // Tampilkan feedback
-    const feedbackElement = document.getElementById('gambar-feedback');
-    if (feedbackElement) {
-        if (isCorrect) {
-            showFeedback(feedbackElement, true, 'Benar!');
-            gambarScore++;
-            const scoreElement = document.getElementById('gambar-score');
-            if (scoreElement) {
-                updateScore(scoreElement, gambarScore);
-            }
-        } else {
-            showFeedback(feedbackElement, false, 'Salah! Jawaban yang benar adalah ' + currentQuestion.correctAnswer);
-        }
+    // Show feedback
+    if (isCorrect) {
+        showFeedback(feedbackElement, true, 'Benar! 🎉');
+        gambarScore++;
+        updateScore(document.getElementById('gambar-score'), gambarScore);
+    } else {
+        showFeedback(feedbackElement, false, `Salah! Jawaban yang benar adalah "${currentQuestion.correctAnswer}" 😞`);
     }
     
-    // Tampilkan tombol Next
-    const nextButton = document.getElementById('next-gambar');
-    if (nextButton) {
-        nextButton.style.display = 'block';
-    }
+    // Show Next button
+    document.getElementById('next-gambar').style.display = 'block';
 }
 
-// Pindah ke pertanyaan berikutnya
+// Move to next question
 function nextGambarQuestion() {
-    console.log('Moving to next Tebak Gambar question');
     currentGambarIndex++;
     displayGambarQuestion(currentGambarIndex);
 }
 
-// Akhiri game dan mulai ulang
+// End game and show results
 function endTebakGambar() {
-    console.log('Game over for Tebak Gambar');
+    const gameContainer = document.querySelector('#tebak-gambar-section .game-container');
     
-    // Tampilkan pesan game over
+    // Hide elements
+    document.getElementById('gambar-tebakan').style.display = 'none';
+    document.getElementById('gambar-options').style.display = 'none';
+    document.getElementById('next-gambar').style.display = 'none';
+    
+    // Show result
     const feedbackElement = document.getElementById('gambar-feedback');
-    if (feedbackElement) {
-        feedbackElement.textContent = `Game selesai! Skor Anda: ${gambarScore}/${gambarShuffledData.length}`;
-        feedbackElement.className = 'feedback';
+    feedbackElement.className = 'feedback';
+    
+    const totalQuestions = gambarShuffledData.length;
+    const percentage = Math.round((gambarScore / totalQuestions) * 100);
+    
+    let message = `<h3>Selamat! Permainan Selesai</h3>
+                   <p>Skor Akhir: ${gambarScore} dari ${totalQuestions} (${percentage}%)</p>`;
+    
+    if (percentage >= 80) {
+        message += '<p>Hebat sekali! Kamu sangat pintar! 🏆</p>';
+    } else if (percentage >= 60) {
+        message += '<p>Bagus! Terus berlatih ya! 👍</p>';
+    } else {
+        message += '<p>Jangan menyerah! Coba lagi ya! 💪</p>';
     }
     
-    // Kosongkan opsi
-    const optionsContainer = document.getElementById('gambar-options');
-    if (optionsContainer) {
-        optionsContainer.innerHTML = '';
-    }
+    message += '<button id="restart-gambar" class="next-btn">Main Lagi</button>';
     
-    // Ubah teks tombol next menjadi restart
-    const nextButton = document.getElementById('next-gambar');
-    if (nextButton) {
-        nextButton.textContent = 'Main Lagi';
-        nextButton.style.display = 'block';
-        
-        // Hapus event listener lama
-        nextButton.removeEventListener('click', nextGambarQuestion);
-        
-        // Tambahkan event listener untuk restart
-        const restartHandler = function() {
-            nextButton.textContent = 'Selanjutnya';
-            nextButton.removeEventListener('click', restartHandler);
-            nextButton.addEventListener('click', nextGambarQuestion);
+    feedbackElement.innerHTML = message;
+    
+    // Add event listener to restart button
+    setTimeout(() => {
+        document.getElementById('restart-gambar').addEventListener('click', () => {
+            // Reset display
+            document.getElementById('gambar-tebakan').style.display = 'block';
+            document.getElementById('gambar-options').style.display = 'grid';
+            
+            // Restart game
             initializeTebakGambar();
-        };
-        
-        nextButton.addEventListener('click', restartHandler);
-    }
+        });
+    }, 100);
 }
