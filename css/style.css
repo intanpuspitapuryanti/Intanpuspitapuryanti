@@ -407,3 +407,147 @@ footer {
     height: 50px;
   }
 }
+/* Tambahkan CSS ini di akhir file style.css untuk hasil akhir */
+
+/* Styling untuk layar hasil di akhir permainan */
+.result-container {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    text-align: center;
+    position: relative;
+    animation: scaleIn 0.5s ease;
+    margin: 20px auto;
+    max-width: 400px;
+}
+
+.trophy {
+    font-size: 60px;
+    animation: bounce 1s infinite alternate;
+    margin-bottom: 20px;
+}
+
+.result-score {
+    font-size: 24px;
+    margin: 20px 0;
+    font-weight: bold;
+}
+
+.score-number {
+    font-size: 48px;
+    color: var(--primary);
+}
+
+.score-percentage {
+    color: var(--secondary);
+    font-weight: bold;
+}
+
+.result-message {
+    font-size: 20px;
+    margin-bottom: 30px;
+}
+
+#restart-gambar, #restart-suara {
+    font-size: 18px;
+    padding: 12px 30px;
+    background: var(--primary);
+    color: white;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+#restart-gambar:hover, #restart-suara:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 15px rgba(0,0,0,0.2);
+}
+
+/* Animasi untuk layar hasil */
+@keyframes bounce {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-15px); }
+}
+
+@keyframes scaleIn {
+    0% { transform: scale(0.8); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+/* Animasi untuk tombol putar suara */
+.playing {
+    animation: pulse-play 0.5s infinite alternate;
+    background: var(--secondary) !important;
+}
+
+@keyframes pulse-play {
+    0% { transform: scale(1); }
+    100% { transform: scale(1.1); }
+}
+
+/* Animasi not musik untuk hasil tebak suara */
+.music-notes {
+    height: 60px;
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.note {
+    position: absolute;
+    font-size: 30px;
+    color: var(--primary);
+    opacity: 0;
+}
+
+.note:nth-child(1) {
+    left: 30%;
+    animation: float-note 3s ease-in-out infinite 0.5s;
+}
+
+.note:nth-child(2) {
+    left: 45%;
+    animation: float-note 2.5s ease-in-out infinite;
+}
+
+.note:nth-child(3) {
+    left: 60%;
+    animation: float-note 3s ease-in-out infinite 1s;
+}
+
+.note:nth-child(4) {
+    left: 75%;
+    animation: float-note 2.7s ease-in-out infinite 0.7s;
+}
+
+@keyframes float-note {
+    0% {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+}
+
+/* Perbaikan responsif untuk layar hasil */
+@media (max-width: 600px) {
+    .result-container {
+        padding: 20px;
+        max-width: 90%;
+    }
+    
+    .result-score {
+        font-size: 20px;
+    }
+    
+    .score-number {
+        font-size: 36px;
+    }
+    
+    .result-message {
+        font-size: 16px;
+    }
+}
