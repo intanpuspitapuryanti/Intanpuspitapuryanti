@@ -1,92 +1,106 @@
-// Data for Tebak Gambar game
-const tebakGambarData = [
-    {
-        image: 'assets/images/pisang.jpg',
-        correctAnswer: 'Pisang',
-        options: ['Pisang', 'Apel', 'Jeruk', 'Mangga']
-    },
-    {
-        image: 'assets/images/gajah.jpg',
-        correctAnswer: 'Gajah',
-        options: ['Gajah', 'Jerapah', 'Kuda', 'Singa']
-    },
-    {
-        image: 'assets/images/kucing.jpg',
-        correctAnswer: 'Kucing',
-        options: ['Kucing', 'Anjing', 'Kelinci', 'Harimau']
-    },
-    {
-        image: 'assets/images/mobil.jpg',
-        correctAnswer: 'Mobil',
-        options: ['Mobil', 'Sepeda', 'Pesawat', 'Kapal']
-    }
-];
-
-// Game state variables
+// Variabel state untuk game Tebak Gambar
 let currentGambarIndex = 0;
 let gambarScore = 0;
 let gambarShuffledData = [];
 
-// Initialize Tebak Gambar game
+// Inisialisasi game Tebak Gambar
 function initializeTebakGambar() {
-    // Shuffle the game data array to have random order for each game session
+    console.log('Initializing Tebak Gambar game...');
+    
+    // Cek ketersediaan data
+    if (!tebakGambarData || !Array.isArray(tebakGambarData) || tebakGambarData.length === 0) {
+        console.error('Error: Tebak Gambar data not available or empty!');
+        return;
+    }
+    
+    // Acak urutan data game untuk setiap sesi bermain
     gambarShuffledData = shuffleArray(tebakGambarData);
     currentGambarIndex = 0;
     gambarScore = 0;
     
-    // Update score display
+    // Update tampilan skor
     const scoreElement = document.getElementById('gambar-score');
-    updateScore(scoreElement, gambarScore);
+    if (scoreElement) {
+        updateScore(scoreElement, gambarScore);
+    } else {
+        console.error('Error: gambar-score element not found!');
+    }
     
-    // Display first question
+    // Tampilkan pertanyaan pertama
     displayGambarQuestion(currentGambarIndex);
     
-    // Add event listener to "Next" button
-    document.getElementById('next-gambar').addEventListener('click', nextGambarQuestion);
+    // Tambahkan event listener untuk tombol "Next"
+    const nextButton = document.getElementById('next-gambar');
+    if (nextButton) {
+        // Hapus event listener yang lama untuk menghindari duplikasi
+        nextButton.removeEventListener('click', nextGambarQuestion);
+        nextButton.addEventListener('click', nextGambarQuestion);
+        console.log('Next button event listener added for Tebak Gambar');
+    } else {
+        console.error('Error: next-gambar button not found!');
+    }
 }
 
-// Display current question
+// Tampilkan pertanyaan saat ini
 function displayGambarQuestion(index) {
+    console.log(`Displaying Tebak Gambar question index: ${index}`);
+    
     if (index >= gambarShuffledData.length) {
-        // End of game, restart
+        // Akhir game, mulai ulang
         endTebakGambar();
         return;
     }
     
     const currentQuestion = gambarShuffledData[index];
     
-    // Update image
+    // Update gambar
     const imageElement = document.getElementById('gambar-tebakan');
-    imageElement.src = currentQuestion.image;
-    imageElement.alt = 'Tebak gambar ini';
+    if (imageElement) {
+        imageElement.src = currentQuestion.image;
+        imageElement.alt = 'Tebak gambar ini';
+        console.log(`Set image source to: ${currentQuestion.image}`);
+    } else {
+        console.error('Error: gambar-tebakan element not found!');
+    }
     
-    // Create shuffled options
+    // Buat opsi yang diacak
     const shuffledOptions = shuffleArray(currentQuestion.options);
     
-    // Create option buttons
+    // Buat tombol-tombol opsi
     createOptionButtons(shuffledOptions, 'gambar-options', handleGambarOptionClick);
     
-    // Clear previous feedback
+    // Bersihkan feedback sebelumnya
     const feedbackElement = document.getElementById('gambar-feedback');
-    feedbackElement.textContent = '';
-    feedbackElement.className = 'feedback';
+    if (feedbackElement) {
+        feedbackElement.textContent = '';
+        feedbackElement.className = 'feedback';
+    } else {
+        console.error('Error: gambar-feedback element not found!');
+    }
     
-    // Hide Next button until answer is selected
-    document.getElementById('next-gambar').style.display = 'none';
+    // Sembunyikan tombol Next sampai jawaban dipilih
+    const nextButton = document.getElementById('next-gambar');
+    if (nextButton) {
+        nextButton.style.display = 'none';
+    } else {
+        console.error('Error: next-gambar button not found!');
+    }
 }
 
-// Handle option click
+// Tangani klik pada opsi
 function handleGambarOptionClick(event) {
     const selectedOption = event.target.textContent;
     const currentQuestion = gambarShuffledData[currentGambarIndex];
     const isCorrect = selectedOption === currentQuestion.correctAnswer;
     
-    // Disable all option buttons
+    console.log(`Option clicked: ${selectedOption}, Correct answer: ${currentQuestion.correctAnswer}, isCorrect: ${isCorrect}`);
+    
+    // Nonaktifkan semua tombol opsi
     const optionButtons = document.querySelectorAll('#gambar-options .option-btn');
     optionButtons.forEach(button => {
         button.disabled = true;
         
-        // Highlight correct and incorrect answers
+        // Sorot jawaban benar dan salah
         if (button.textContent === currentQuestion.correctAnswer) {
             button.classList.add('correct');
         } else if (button.textContent === selectedOption && !isCorrect) {
@@ -94,45 +108,69 @@ function handleGambarOptionClick(event) {
         }
     });
     
-    // Show feedback
+    // Tampilkan feedback
     const feedbackElement = document.getElementById('gambar-feedback');
-    if (isCorrect) {
-        showFeedback(feedbackElement, true, 'Benar!');
-        gambarScore++;
-        updateScore(document.getElementById('gambar-score'), gambarScore);
-    } else {
-        showFeedback(feedbackElement, false, 'Salah! Jawaban yang benar adalah ' + currentQuestion.correctAnswer);
+    if (feedbackElement) {
+        if (isCorrect) {
+            showFeedback(feedbackElement, true, 'Benar!');
+            gambarScore++;
+            const scoreElement = document.getElementById('gambar-score');
+            if (scoreElement) {
+                updateScore(scoreElement, gambarScore);
+            }
+        } else {
+            showFeedback(feedbackElement, false, 'Salah! Jawaban yang benar adalah ' + currentQuestion.correctAnswer);
+        }
     }
     
-    // Show Next button
-    document.getElementById('next-gambar').style.display = 'block';
+    // Tampilkan tombol Next
+    const nextButton = document.getElementById('next-gambar');
+    if (nextButton) {
+        nextButton.style.display = 'block';
+    }
 }
 
-// Move to next question
+// Pindah ke pertanyaan berikutnya
 function nextGambarQuestion() {
+    console.log('Moving to next Tebak Gambar question');
     currentGambarIndex++;
     displayGambarQuestion(currentGambarIndex);
 }
 
-// End game and restart
+// Akhiri game dan mulai ulang
 function endTebakGambar() {
-    // Show game over message
+    console.log('Game over for Tebak Gambar');
+    
+    // Tampilkan pesan game over
     const feedbackElement = document.getElementById('gambar-feedback');
-    feedbackElement.textContent = `Game selesai! Skor Anda: ${gambarScore}/${gambarShuffledData.length}`;
-    feedbackElement.className = 'feedback';
+    if (feedbackElement) {
+        feedbackElement.textContent = `Game selesai! Skor Anda: ${gambarScore}/${gambarShuffledData.length}`;
+        feedbackElement.className = 'feedback';
+    }
     
-    // Clear options
-    document.getElementById('gambar-options').innerHTML = '';
+    // Kosongkan opsi
+    const optionsContainer = document.getElementById('gambar-options');
+    if (optionsContainer) {
+        optionsContainer.innerHTML = '';
+    }
     
-    // Change next button text to restart
+    // Ubah teks tombol next menjadi restart
     const nextButton = document.getElementById('next-gambar');
-    nextButton.textContent = 'Main Lagi';
-    nextButton.style.display = 'block';
-    nextButton.removeEventListener('click', nextGambarQuestion);
-    nextButton.addEventListener('click', function() {
-        nextButton.textContent = 'Selanjutnya';
-        nextButton.removeEventListener('click', arguments.callee);
-        nextButton.addEventListener('click', nextGambarQuestion);
-        initializeTebakGambar();
-    });
+    if (nextButton) {
+        nextButton.textContent = 'Main Lagi';
+        nextButton.style.display = 'block';
+        
+        // Hapus event listener lama
+        nextButton.removeEventListener('click', nextGambarQuestion);
+        
+        // Tambahkan event listener untuk restart
+        const restartHandler = function() {
+            nextButton.textContent = 'Selanjutnya';
+            nextButton.removeEventListener('click', restartHandler);
+            nextButton.addEventListener('click', nextGambarQuestion);
+            initializeTebakGambar();
+        };
+        
+        nextButton.addEventListener('click', restartHandler);
+    }
 }
