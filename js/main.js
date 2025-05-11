@@ -54,7 +54,6 @@ function updateScore(element, score) {
     element.style.animation = 'scorePop 0.5s ease-out';
 }
 
-// Inisialisasi tombol navigasi
 function initializeNavigation() {
     const tebakGambarBtn = document.getElementById('tebak-gambar-btn');
     const tebakSuaraBtn = document.getElementById('tebak-suara-btn');
@@ -71,6 +70,11 @@ function initializeNavigation() {
             // Tampilkan section Tebak Gambar
             tebakGambarSection.classList.add('active');
             tebakSuaraSection.classList.remove('active');
+            
+            // Putar backsound jika tidak di-mute
+            if (!isMuted) {
+                playBacksound();
+            }
         });
         
         // Event listener untuk tombol Tebak Suara
@@ -82,6 +86,9 @@ function initializeNavigation() {
             // Tampilkan section Tebak Suara
             tebakSuaraSection.classList.add('active');
             tebakGambarSection.classList.remove('active');
+            
+            // Matikan backsound untuk mode Tebak Suara
+            pauseBacksound();
         });
     }
 }
