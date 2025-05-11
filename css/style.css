@@ -34,6 +34,7 @@ body {
 }
 
 /* Header Styling */
+/* Header Styling */
 h1 {
   color: var(--light);
   font-size: 3rem;
@@ -41,8 +42,9 @@ h1 {
   margin: 15px 0;
   font-family: 'Fredoka One', cursive;
   text-shadow: 3px 3px 0 var(--primary), 5px 5px 0 rgba(0,0,0,0.2);
-  transform: rotate(0deg); /* Menghilangkan kemiringan */
+  transform: rotate(0deg) !important; /* Memastikan tidak ada rotasi */
   position: relative;
+  transform-origin: center center;
 }
 
 h1::after {
@@ -54,7 +56,7 @@ h1::after {
   left: 0;
   background: var(--accent);
   border-radius: 5px;
-  transform: rotate(0deg); /* Menghilangkan kemiringan garis bawah */
+  transform: rotate(0deg) !important; /* Memastikan tidak ada rotasi */
 }
 
 .menu {
