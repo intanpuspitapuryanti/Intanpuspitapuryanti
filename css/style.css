@@ -197,7 +197,9 @@ h2 {
   color: white;
 }
 
-/* Feedback */
+/* Tambahkan CSS ini di file style.css atau sebagai file terpisah */
+
+/* Pastikan feedback selalu terlihat saat ditampilkan */
 .feedback {
   font-size: 1.5rem;
   font-weight: bold;
@@ -206,21 +208,30 @@ h2 {
   padding: 10px 30px;
   border-radius: 50px;
   transition: all 0.3s;
+  margin: 15px 0;
+  /* Pastikan tidak ada opacity 0 */
+  opacity: 1 !important;
 }
 
 .feedback.correct {
   color: white;
   background: var(--correct);
   box-shadow: 0 4px 8px rgba(0,230,118,0.5);
+  /* Tambahkan visibility untuk memastikan tetap terlihat */
+  visibility: visible !important;
+  display: block !important;
 }
 
 .feedback.incorrect {
   color: white;
   background: var(--incorrect);
   box-shadow: 0 4px 8px rgba(255,61,113,0.5);
+  /* Tambahkan visibility untuk memastikan tetap terlihat */
+  visibility: visible !important;
+  display: block !important;
 }
 
-/* Next Button */
+/* Pastikan tombol next juga tetap terlihat saat ditampilkan */
 .next-btn {
   padding: 12px 30px;
   font-size: 1.2rem;
@@ -232,6 +243,7 @@ h2 {
   font-weight: bold;
   box-shadow: 0 5px 0 rgba(0,0,0,0.15);
   transition: all 0.2s;
+  /* Tombol next akan ditampilkan/disembunyikan via JavaScript */
 }
 
 .next-btn:hover {
