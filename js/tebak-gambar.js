@@ -56,25 +56,19 @@ function initializeTebakGambar() {
     
     // Update score display
     const scoreElement = document.getElementById('gambar-score');
-    if (scoreElement) {
-        updateScore(scoreElement, gambarScore);
-    }
+    updateScore(scoreElement, gambarScore);
     
     // Display first question
     displayGambarQuestion(currentGambarIndex);
     
     // Add event listener to "Next" button
-    const nextButton = document.getElementById('next-gambar');
-    if (nextButton) {
-        nextButton.addEventListener('click', nextGambarQuestion);
-        nextButton.style.display = 'none';
-    }
+    document.getElementById('next-gambar').addEventListener('click', nextGambarQuestion);
 }
 
 // Display current question
 function displayGambarQuestion(index) {
     if (index >= gambarShuffledData.length) {
-        // End of game, show results
+        // End of game, restart
         endTebakGambar();
         return;
     }
@@ -83,32 +77,22 @@ function displayGambarQuestion(index) {
     
     // Update image
     const imageElement = document.getElementById('gambar-tebakan');
-    if (imageElement) {
-        imageElement.src = currentQuestion.image;
-        imageElement.alt = 'Tebak gambar ini';
-    }
+    imageElement.src = currentQuestion.image;
+    imageElement.alt = 'Tebak gambar ini';
     
     // Create shuffled options
     const shuffledOptions = shuffleArray(currentQuestion.options);
     
     // Create option buttons
-    const optionsContainer = document.getElementById('gambar-options');
-    if (optionsContainer) {
-        createOptionButtons(shuffledOptions, 'gambar-options', handleGambarOptionClick);
-    }
+    createOptionButtons(shuffledOptions, 'gambar-options', handleGambarOptionClick);
     
     // Clear previous feedback
     const feedbackElement = document.getElementById('gambar-feedback');
-    if (feedbackElement) {
-        feedbackElement.textContent = '';
-        feedbackElement.className = 'feedback';
-    }
+    feedbackElement.textContent = '';
+    feedbackElement.className = 'feedback';
     
     // Hide Next button until answer is selected
-    const nextButton = document.getElementById('next-gambar');
-    if (nextButton) {
-        nextButton.style.display = 'none';
-    }
+    document.getElementById('next-gambar').style.display = 'none';
 }
 
 // Handle option click
@@ -142,10 +126,7 @@ function handleGambarOptionClick(event) {
     }
     
     // Show Next button
-    const nextButton = document.getElementById('next-gambar');
-    if (nextButton) {
-        nextButton.style.display = 'block';
-    }
+    document.getElementById('next-gambar').style.display = 'block';
 }
 
 // Move to next question
@@ -160,20 +141,13 @@ function endTebakGambar() {
     const gameContainer = document.querySelector('#tebak-gambar-section .game-container');
     
     // Hide game elements
-    const imageContainer = document.querySelector('.image-container');
-    const optionsContainer = document.getElementById('gambar-options');
-    const nextButton = document.getElementById('next-gambar');
-    const scoreContainer = document.querySelector('#tebak-gambar-section .score-container');
-    
-    if (imageContainer) imageContainer.style.display = 'none';
-    if (optionsContainer) optionsContainer.style.display = 'none';
-    if (nextButton) nextButton.style.display = 'none';
-    if (scoreContainer) scoreContainer.style.display = 'none';
+    document.querySelector('.image-container').style.display = 'none';
+    document.getElementById('gambar-options').style.display = 'none';
+    document.getElementById('next-gambar').style.display = 'none';
+    document.querySelector('#tebak-gambar-section .score-container').style.display = 'none';
     
     // Show result
     const feedbackElement = document.getElementById('gambar-feedback');
-    if (!feedbackElement) return;
-    
     feedbackElement.className = 'feedback';
     
     const totalQuestions = gambarShuffledData.length;
@@ -201,45 +175,22 @@ function endTebakGambar() {
         message += '<p class="result-message">Jangan menyerah! Coba lagi ya! 💪</p>';
     }
     
-    // Tambahkan tombol untuk kembali ke menu utama dan tombol main lagi
-    message += '<div class="result-buttons">';
-    message += '<button id="kembali-menu" class="menu-btn">Kembali ke Menu</button>';
     message += '<button id="restart-gambar" class="next-btn">Main Lagi</button>';
-    message += '</div>';
     message += '</div>';
     
     feedbackElement.innerHTML = message;
     
-    // Add event listeners to buttons
+    // Add event listener to restart button
     setTimeout(() => {
-        // Event listener untuk tombol main lagi
-        const restartButton = document.getElementById('restart-gambar');
-        if (restartButton) {
-            restartButton.addEventListener('click', () => {
-                // Reset display
-                if (imageContainer) imageContainer.style.display = 'flex';
-                if (optionsContainer) optionsContainer.style.display = 'grid';
-                if (scoreContainer) scoreContainer.style.display = 'block';
-                
-                // Restart game
-                initializeTebakGambar();
-            });
-        }
-        
-        // Event listener untuk tombol kembali ke menu
-        const menuButton = document.getElementById('kembali-menu');
-        if (menuButton) {
-            menuButton.addEventListener('click', () => {
-                // Sembunyikan section Tebak Gambar
-                const tebakGambarSection = document.getElementById('tebak-gambar-section');
-                if (tebakGambarSection) {
-                    tebakGambarSection.style.display = 'none';
-                }
-                
-                // Tampilkan kembali menu utama
-                document.querySelector('.main-menu').style.display = 'flex';
-            });
-        }
+        document.getElementById('restart-gambar').addEventListener('click', () => {
+            // Reset display
+            document.querySelector('.image-container').style.display = 'flex';
+            document.getElementById('gambar-options').style.display = 'grid';
+            document.querySelector('#tebak-gambar-section .score-container').style.display = 'block';
+            
+            // Restart game
+            initializeTebakGambar();
+        });
     }, 100);
     
     // Add CSS rules for result screen
@@ -286,32 +237,15 @@ function endTebakGambar() {
                 margin-bottom: 30px;
             }
             
-            .result-buttons {
-                display: flex;
-                justify-content: center;
-                gap: 15px;
-                flex-wrap: wrap;
-            }
-            
-            #restart-gambar, #kembali-menu {
+            #restart-gambar {
                 font-size: 18px;
-                padding: 12px 20px;
-                border-radius: 10px;
-                cursor: pointer;
+                padding: 12px 30px;
+                background: var(--primary);
+                color: white;
                 transition: transform 0.3s, box-shadow 0.3s;
             }
             
-            #restart-gambar {
-                background: var(--primary);
-                color: white;
-            }
-            
-            #kembali-menu {
-                background: var(--secondary);
-                color: white;
-            }
-            
-            #restart-gambar:hover, #kembali-menu:hover {
+            #restart-gambar:hover {
                 transform: translateY(-5px);
                 box-shadow: 0 10px 15px rgba(0,0,0,0.2);
             }
