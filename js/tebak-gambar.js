@@ -137,12 +137,14 @@ function nextGambarQuestion() {
 
 // End game and show results
 function endTebakGambar() {
+    // Create result container
     const gameContainer = document.querySelector('#tebak-gambar-section .game-container');
     
-    // Hide elements
-    document.getElementById('gambar-tebakan').style.display = 'none';
+    // Hide game elements
+    document.querySelector('.image-container').style.display = 'none';
     document.getElementById('gambar-options').style.display = 'none';
     document.getElementById('next-gambar').style.display = 'none';
+    document.querySelector('#tebak-gambar-section .score-container').style.display = 'none';
     
     // Show result
     const feedbackElement = document.getElementById('gambar-feedback');
@@ -151,18 +153,30 @@ function endTebakGambar() {
     const totalQuestions = gambarShuffledData.length;
     const percentage = Math.round((gambarScore / totalQuestions) * 100);
     
-    let message = `<h3>Selamat! Permainan Selesai</h3>
-                   <p>Skor Akhir: ${gambarScore} dari ${totalQuestions} (${percentage}%)</p>`;
+    // Create result message with trophy animation for high scores
+    let message = `<div class="result-container">`;
+    
+    // Add trophy for high scores
+    if (percentage >= 80) {
+        message += `<div class="trophy">🏆</div>`;
+    }
+    
+    message += `<h3>Selamat! Permainan Selesai</h3>
+               <div class="result-score">
+                 <span class="score-number">${gambarScore}</span> dari ${totalQuestions} 
+                 <span class="score-percentage">(${percentage}%)</span>
+               </div>`;
     
     if (percentage >= 80) {
-        message += '<p>Hebat sekali! Kamu sangat pintar! 🏆</p>';
+        message += '<p class="result-message">Hebat sekali! Kamu sangat pintar! 🌟</p>';
     } else if (percentage >= 60) {
-        message += '<p>Bagus! Terus berlatih ya! 👍</p>';
+        message += '<p class="result-message">Bagus! Terus berlatih ya! 👍</p>';
     } else {
-        message += '<p>Jangan menyerah! Coba lagi ya! 💪</p>';
+        message += '<p class="result-message">Jangan menyerah! Coba lagi ya! 💪</p>';
     }
     
     message += '<button id="restart-gambar" class="next-btn">Main Lagi</button>';
+    message += '</div>';
     
     feedbackElement.innerHTML = message;
     
@@ -170,11 +184,82 @@ function endTebakGambar() {
     setTimeout(() => {
         document.getElementById('restart-gambar').addEventListener('click', () => {
             // Reset display
-            document.getElementById('gambar-tebakan').style.display = 'block';
+            document.querySelector('.image-container').style.display = 'flex';
             document.getElementById('gambar-options').style.display = 'grid';
+            document.querySelector('#tebak-gambar-section .score-container').style.display = 'block';
             
             // Restart game
             initializeTebakGambar();
         });
     }, 100);
+    
+    // Add CSS rules for result screen
+    if (!document.getElementById('result-styles')) {
+        const styleSheet = document.createElement('style');
+        styleSheet.id = 'result-styles';
+        styleSheet.innerHTML = `
+            .result-container {
+                background: white;
+                padding: 30px;
+                border-radius: 15px;
+                box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+                text-align: center;
+                position: relative;
+                animation: scaleIn 0.5s ease;
+                margin: 20px auto;
+                max-width: 400px;
+            }
+            
+            .trophy {
+                font-size: 60px;
+                animation: bounce 1s infinite alternate;
+                margin-bottom: 20px;
+            }
+            
+            .result-score {
+                font-size: 24px;
+                margin: 20px 0;
+                font-weight: bold;
+            }
+            
+            .score-number {
+                font-size: 48px;
+                color: var(--primary);
+            }
+            
+            .score-percentage {
+                color: var(--secondary);
+                font-weight: bold;
+            }
+            
+            .result-message {
+                font-size: 20px;
+                margin-bottom: 30px;
+            }
+            
+            #restart-gambar {
+                font-size: 18px;
+                padding: 12px 30px;
+                background: var(--primary);
+                color: white;
+                transition: transform 0.3s, box-shadow 0.3s;
+            }
+            
+            #restart-gambar:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 10px 15px rgba(0,0,0,0.2);
+            }
+            
+            @keyframes bounce {
+                0% { transform: translateY(0); }
+                100% { transform: translateY(-15px); }
+            }
+            
+            @keyframes scaleIn {
+                0% { transform: scale(0.8); opacity: 0; }
+                100% { transform: scale(1); opacity: 1; }
+            }
+        `;
+        document.head.appendChild(styleSheet);
+    }
 }
