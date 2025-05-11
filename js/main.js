@@ -1,12 +1,20 @@
-// Event listeners for tab navigation
+// Event listeners untuk navigasi tab dan inisialisasi game
 document.addEventListener('DOMContentLoaded', function() {
-    // Get tab buttons and sections
+    console.log('DOM fully loaded. Initializing game...');
+    
+    // Ambil elemen-elemen tab dan section
     const tebakGambarBtn = document.getElementById('tebak-gambar-btn');
     const tebakSuaraBtn = document.getElementById('tebak-suara-btn');
     const tebakGambarSection = document.getElementById('tebak-gambar-section');
     const tebakSuaraSection = document.getElementById('tebak-suara-section');
 
-    // Tab switching functionality
+    // Pastikan semua elemen berhasil dipilih
+    if (!tebakGambarBtn || !tebakSuaraBtn || !tebakGambarSection || !tebakSuaraSection) {
+        console.error('Error: Required elements not found!');
+        return;
+    }
+
+    // Fungsi untuk perpindahan tab
     tebakGambarBtn.addEventListener('click', function() {
         // Update active tab
         tebakGambarBtn.classList.add('active');
@@ -15,6 +23,8 @@ document.addEventListener('DOMContentLoaded', function() {
         // Show/hide sections
         tebakGambarSection.classList.add('active');
         tebakSuaraSection.classList.remove('active');
+        
+        console.log('Switched to Tebak Gambar tab');
     });
 
     tebakSuaraBtn.addEventListener('click', function() {
@@ -25,16 +35,23 @@ document.addEventListener('DOMContentLoaded', function() {
         // Show/hide sections
         tebakSuaraSection.classList.add('active');
         tebakGambarSection.classList.remove('active');
+        
+        console.log('Switched to Tebak Suara tab');
     });
 
-    // Initialize both games when page loads
+    // Inisialisasi kedua game
     initializeTebakGambar();
     initializeTebakSuara();
 });
 
-// Helper functions shared between both games
+// Fungsi bantuan yang digunakan kedua game
 function shuffleArray(array) {
-    // Create a copy of the array to avoid modifying the original
+    if (!array || !Array.isArray(array)) {
+        console.error('Error: Invalid array provided to shuffleArray:', array);
+        return [];
+    }
+    
+    // Buat salinan array untuk menghindari modifikasi array asli
     const newArray = [...array];
     
     // Fisher-Yates shuffle algorithm
@@ -48,7 +65,20 @@ function shuffleArray(array) {
 
 function createOptionButtons(options, containerId, onClickHandler) {
     const container = document.getElementById(containerId);
-    container.innerHTML = '';  // Clear existing options
+    
+    if (!container) {
+        console.error(`Error: Container element with ID ${containerId} not found!`);
+        return;
+    }
+    
+    container.innerHTML = '';  // Kosongkan container
+    
+    if (!options || !Array.isArray(options)) {
+        console.error('Error: Invalid options provided:', options);
+        return;
+    }
+    
+    console.log(`Creating ${options.length} option buttons for ${containerId}`);
     
     options.forEach((option, index) => {
         const button = document.createElement('button');
@@ -61,6 +91,11 @@ function createOptionButtons(options, containerId, onClickHandler) {
 }
 
 function showFeedback(element, isCorrect, message) {
+    if (!element) {
+        console.error('Error: Feedback element not found!');
+        return;
+    }
+    
     element.textContent = message;
     element.classList.remove('correct', 'incorrect');
     
@@ -72,5 +107,10 @@ function showFeedback(element, isCorrect, message) {
 }
 
 function updateScore(scoreElement, scoreValue) {
+    if (!scoreElement) {
+        console.error('Error: Score element not found!');
+        return;
+    }
+    
     scoreElement.textContent = scoreValue;
 }
