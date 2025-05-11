@@ -1,44 +1,24 @@
 // Data for Tebak Gambar game
 const tebakGambarData = [
     {
-        image: 'assets/images/kucing.jpg',
-        correctAnswer: 'Kucing',
-        options: ['Kucing', 'Anjing', 'Kelinci', 'Harimau']
-    },
-    {
-        image: 'assets/images/gajah.jpg',
-        correctAnswer: 'Gajah',
-        options: ['Gajah', 'Jerapah', 'Kuda', 'Singa']
-    },
-    {
-        image: 'assets/images/pisang.jpg',
+        image: '/api/placeholder/280/280', // Placeholder for banana
         correctAnswer: 'Pisang',
         options: ['Pisang', 'Apel', 'Jeruk', 'Mangga']
     },
     {
-        image: 'assets/images/mobil.jpg',
+        image: '/api/placeholder/280/280', // Placeholder for elephant
+        correctAnswer: 'Gajah',
+        options: ['Gajah', 'Jerapah', 'Kuda', 'Singa']
+    },
+    {
+        image: '/api/placeholder/280/280', // Placeholder for cat
+        correctAnswer: 'Kucing',
+        options: ['Kucing', 'Anjing', 'Kelinci', 'Harimau']
+    },
+    {
+        image: '/api/placeholder/280/280', // Placeholder for car
         correctAnswer: 'Mobil',
         options: ['Mobil', 'Sepeda', 'Pesawat', 'Kapal']
-    },
-    {
-        image: 'assets/images/rumah.jpg',
-        correctAnswer: 'Rumah',
-        options: ['Rumah', 'Sekolah', 'Toko', 'Kantor']
-    },
-    {
-        image: 'assets/images/ayam.jpg',
-        correctAnswer: 'Ayam',
-        options: ['Ayam', 'Bebek', 'Angsa', 'Burung']
-    },
-    {
-        image: 'assets/images/bola.jpg',
-        correctAnswer: 'Bola',
-        options: ['Bola', 'Raket', 'Buku', 'Pensil']
-    },
-    {
-        image: 'assets/images/bunga.jpg',
-        correctAnswer: 'Bunga',
-        options: ['Bunga', 'Pohon', 'Rumput', 'Daun']
     }
 ];
 
@@ -152,7 +132,7 @@ function endTebakGambar() {
     const percentage = Math.round((gambarScore / totalQuestions) * 100);
     
     let message = `<h3>Selamat! Permainan Selesai</h3>
-                   <p>Skor Akhir: ${gambarScore} dari ${totalQuestions} (${percentage}%)</p>`;
+                <p>Skor Akhir: ${gambarScore} dari ${totalQuestions} (${percentage}%)</p>`;
     
     if (percentage >= 80) {
         message += '<p>Hebat sekali! Kamu sangat pintar! 🏆</p>';
