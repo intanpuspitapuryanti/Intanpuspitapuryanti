@@ -1,565 +1,409 @@
-/* Gaya game yang lebih interaktif dan menarik */
+/* CSS dengan Tema Game Populer - Mirip Fortnite/Minecraft */
+@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;700&display=swap');
+
 :root {
-    --primary-color: #6c5ce7;
-    --secondary-color: #00cec9;
-    --accent-color: #fdcb6e;
-    --correct-color: #00b894;
-    --incorrect-color: #d63031;
-    --background-color: #74b9ff;
-    --card-color: #fff;
-    --text-color: #2d3436;
-    --header-font: 'Fredoka One', 'Comic Sans MS', cursive;
-    --body-font: 'Nunito', 'Arial Rounded MT Bold', sans-serif;
+  --primary: #5D3FD3; /* Ungu */
+  --secondary: #00E5FF; /* Cyan */
+  --accent: #FFDB0F; /* Kuning */
+  --correct: #00E676; /* Hijau */
+  --incorrect: #FF3D71; /* Merah */
+  --dark: #1A1A2E; /* Biru Gelap */
+  --light: #F5F5F5; /* Putih */
+  --game-gradient: linear-gradient(135deg, #5D3FD3 0%, #4361EE 100%);
 }
 
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: var(--body-font);
-    transition: all 0.3s ease;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Nunito', sans-serif;
 }
 
 body {
-    background: var(--background-color);
-    background-image: url('assets/images/background-pattern.png'), linear-gradient(135deg, #74b9ff 0%, #a29bfe 100%);
-    background-attachment: fixed;
-    min-height: 100vh;
-    overflow-x: hidden;
+  background: var(--game-gradient);
+  background-attachment: fixed;
+  min-height: 100vh;
+  color: var(--light);
+  overflow-x: hidden;
 }
 
 .container {
-    max-width: 1000px;
-    margin: 0 auto;
-    padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
 }
 
 /* Header Styling */
-header {
-    text-align: center;
-    margin-bottom: 30px;
-    position: relative;
-}
-
 h1 {
-    color: #fff;
-    font-size: 3.5rem;
-    margin-bottom: 10px;
-    text-shadow: 3px 3px 0 var(--primary-color), 
-                 5px 5px 0 rgba(0, 0, 0, 0.2);
-    font-family: var(--header-font);
-    letter-spacing: 1px;
-    transform: rotate(-2deg);
-    padding: 15px;
-    position: relative;
-    z-index: 1;
+  color: var(--light);
+  font-size: 3rem;
+  text-align: center;
+  margin: 15px 0;
+  font-family: 'Fredoka One', cursive;
+  text-shadow: 3px 3px 0 var(--primary), 5px 5px 0 rgba(0,0,0,0.2);
+  transform: rotate(-2deg);
+  position: relative;
 }
 
 h1::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 110%;
-    height: 120%;
-    background-color: var(--accent-color);
-    z-index: -1;
-    transform: translate(-50%, -50%) rotate(2deg);
-    border-radius: 15px;
-    box-shadow: 0 8px 0 rgba(0, 0, 0, 0.2);
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 10px;
+  bottom: -10px;
+  left: 0;
+  background: var(--accent);
+  border-radius: 5px;
+  transform: rotate(2deg);
 }
 
 .menu {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    margin: 40px 0 30px;
-    position: relative;
-    z-index: 2;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin: 40px 0 30px;
 }
 
 .menu button {
-    padding: 15px 30px;
-    font-size: 1.3rem;
-    background-color: var(--card-color);
-    border: none;
-    border-radius: 50px;
-    color: var(--primary-color);
-    cursor: pointer;
-    font-weight: bold;
-    box-shadow: 0 8px 0 rgba(0, 0, 0, 0.1);
-    position: relative;
-    overflow: hidden;
-    font-family: var(--header-font);
-}
-
-.menu button::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(rgba(255, 255, 255, 0.2), transparent);
+  padding: 12px 25px;
+  font-size: 1.2rem;
+  background: var(--light);
+  border: none;
+  border-radius: 50px;
+  color: var(--dark);
+  cursor: pointer;
+  font-weight: bold;
+  box-shadow: 0 5px 0 rgba(0,0,0,0.15);
+  transition: all 0.2s;
 }
 
 .menu button:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 12px 0 rgba(0, 0, 0, 0.1);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 0 rgba(0,0,0,0.15);
 }
 
 .menu button:active {
-    transform: translateY(3px);
-    box-shadow: 0 4px 0 rgba(0, 0, 0, 0.1);
+  transform: translateY(2px);
+  box-shadow: 0 3px 0 rgba(0,0,0,0.15);
 }
 
 .menu button.active {
-    background-color: var(--primary-color);
-    color: #fff;
+  background: var(--primary);
+  color: var(--light);
 }
 
 /* Game Sections */
 .game-section {
-    display: none;
-    background-color: var(--card-color);
-    border-radius: 20px;
-    padding: 30px;
-    box-shadow: 0 15px 0 rgba(0, 0, 0, 0.1), 0 30px 60px rgba(0, 0, 0, 0.12);
-    margin-bottom: 40px;
-    position: relative;
-    overflow: hidden;
+  display: none;
+  background: var(--light);
+  border-radius: 15px;
+  padding: 25px;
+  box-shadow: 0 10px 0 rgba(0,0,0,0.2), 0 15px 20px rgba(0,0,0,0.2);
+  color: var(--dark);
+  position: relative;
+  overflow: hidden;
 }
 
 .game-section::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 15px;
-    background: linear-gradient(90deg, 
-        var(--primary-color) 0%, 
-        var(--primary-color) 25%, 
-        var(--secondary-color) 25%, 
-        var(--secondary-color) 50%,
-        var(--accent-color) 50%, 
-        var(--accent-color) 75%,
-        var(--correct-color) 75%, 
-        var(--correct-color) 100%);
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 8px;
+  background: linear-gradient(90deg, 
+      var(--primary), 
+      var(--secondary));
 }
 
 .game-section.active {
-    display: block;
-    animation: bounceIn 0.6s;
+  display: block;
+  animation: popIn 0.5s;
 }
 
 h2 {
-    color: var(--primary-color);
-    text-align: center;
-    margin-bottom: 30px;
-    font-size: 2.5rem;
-    font-family: var(--header-font);
-    position: relative;
-    display: inline-block;
-    left: 50%;
-    transform: translateX(-50%);
-}
-
-h2::after {
-    content: '';
-    position: absolute;
-    bottom: -10px;
-    left: 0;
-    width: 100%;
-    height: 5px;
-    background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
-    border-radius: 5px;
+  color: var(--primary);
+  text-align: center;
+  margin-bottom: 25px;
+  font-size: 2.2rem;
+  font-family: 'Fredoka One', cursive;
 }
 
 .game-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 25px;
-    position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
 }
 
 /* Image Container */
 .image-container {
-    width: 320px;
-    height: 320px;
-    border: 8px solid var(--accent-color);
-    border-radius: 20px;
-    overflow: hidden;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #fff;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-    position: relative;
-    transform-style: preserve-3d;
-    perspective: 1000px;
-    transition: transform 0.5s;
+  width: 280px;
+  height: 280px;
+  border-radius: 15px;
+  border: 5px solid var(--accent);
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #fff;
+  box-shadow: 0 6px 0 rgba(0,0,0,0.1);
+  transform-style: preserve-3d;
+  perspective: 1000px;
+  transition: transform 0.3s;
 }
 
 .image-container:hover {
-    transform: rotate3d(0, 1, 0, 15deg);
-}
-
-.image-container::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.3) 0%, transparent 50%, rgba(0, 0, 0, 0.1) 100%);
-    z-index: 1;
-    pointer-events: none;
+  transform: rotate3d(0, 1, 0, 10deg);
 }
 
 .image-container img {
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain;
-    transform: scale(0.9);
-    transition: transform 0.3s;
+  max-width: 90%;
+  max-height: 90%;
+  object-fit: contain;
+  transition: transform 0.3s;
 }
 
 .image-container:hover img {
-    transform: scale(1);
+  transform: scale(1.1);
 }
 
 /* Sound Button */
 .audio-container {
-    width: 200px;
-    height: 200px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 30px;
-    position: relative;
+  margin: 20px 0;
 }
 
 .sound-btn {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    border: none;
-    background-color: var(--accent-color);
-    cursor: pointer;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: all 0.3s ease;
-    box-shadow: 0 15px 0 rgba(0, 0, 0, 0.1),
-                0 0 20px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-    position: relative;  
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 8px 0 rgba(0,0,0,0.15);
+  transition: all 0.2s;
 }
 
 .sound-btn:hover {
-    transform: translateY(-5px) scale(1.05);
+  transform: scale(1.05) translateY(-5px);
+  box-shadow: 0 12px 0 rgba(0,0,0,0.15);
 }
 
 .sound-btn:active {
-    transform: translateY(5px) scale(0.95);
-    box-shadow: 0 8px 0 rgba(0, 0, 0, 0.1);
+  transform: scale(0.95) translateY(5px);
+  box-shadow: 0 4px 0 rgba(0,0,0,0.15);
 }
 
 .sound-btn img {
-    width: 80px;
-    height: 80px;
-    filter: drop-shadow(2px 2px 0 rgba(0, 0, 0, 0.1));
-    transition: transform 0.3s;
-    z-index: 1;
+  width: 60px;
+  height: 60px;
 }
 
-.sound-btn:hover img {
-    transform: scale(1.1);
-}
-
-.sound-btn::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: radial-gradient(circle at center, transparent 30%, rgba(0, 0, 0, 0.05) 100%);
-}
-
-/* Answer Options */
+/* Options */
 .options-container {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
-    margin: 25px 0;
-    width: 100%;
-    max-width: 600px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+  width: 100%;
+  max-width: 500px;
 }
 
 .option-btn {
-    padding: 18px;
-    font-size: 1.3rem;
-    background-color: #fff;
-    border: 4px solid var(--primary-color);
-    border-radius: 15px;
-    color: var(--text-color);
-    cursor: pointer;
-    transition: all 0.3s ease;
-    text-align: center;
-    font-weight: bold;
-    position: relative;
-    box-shadow: 0 8px 0 rgba(0, 0, 0, 0.1);
-    overflow: hidden;
+  padding: 15px;
+  font-size: 1.1rem;
+  background: var(--light);
+  border: 3px solid var(--primary);
+  border-radius: 10px;
+  color: var(--dark);
+  cursor: pointer;
+  font-weight: bold;
+  box-shadow: 0 5px 0 rgba(0,0,0,0.1);
+  transition: all 0.2s;
+  position: relative;
+  overflow: hidden;
 }
 
 .option-btn::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.2) 0%, transparent 100%);
-    z-index: 1;
-    pointer-events: none;
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(rgba(255,255,255,0.2), transparent);
+  z-index: 1;
+  pointer-events: none;
 }
 
 .option-btn:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 12px 0 rgba(0, 0, 0, 0.1);
-    border-color: var(--secondary-color);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 0 rgba(0,0,0,0.1);
+  border-color: var(--secondary);
 }
 
 .option-btn:active {
-    transform: translateY(5px);
-    box-shadow: 0 4px 0 rgba(0, 0, 0, 0.1);
+  transform: translateY(2px);
+  box-shadow: 0 3px 0 rgba(0,0,0,0.1);
 }
 
 .option-btn.correct {
-    background-color: var(--correct-color);
-    border-color: var(--correct-color);
-    color: white;
-    animation: pulse 0.5s infinite alternate;
+  background: var(--correct);
+  border-color: var(--correct);
+  color: white;
+  animation: pulse 0.5s infinite alternate;
 }
 
 .option-btn.incorrect {
-    background-color: var(--incorrect-color);
-    border-color: var(--incorrect-color);
-    color: white;
-    animation: shake 0.5s;
+  background: var(--incorrect);
+  border-color: var(--incorrect);
+  color: white;
+  animation: shake 0.4s;
 }
 
 /* Feedback */
 .feedback {
-    font-size: 1.8rem;
-    font-weight: bold;
-    text-align: center;
-    min-height: 40px;
-    padding: 10px 20px;
-    border-radius: 50px;
-    transition: all 0.3s;
-    transform: scale(0);
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+  min-height: 40px;
+  padding: 10px 30px;
+  border-radius: 50px;
+  transition: all 0.3s;
+  transform: scale(0);
 }
 
 .feedback.correct {
-    color: white;
-    background-color: var(--correct-color);
-    box-shadow: 0 5px 15px rgba(0, 184, 148, 0.4);
-    transform: scale(1);
+  color: white;
+  background: var(--correct);
+  transform: scale(1);
+  box-shadow: 0 4px 8px rgba(0,230,118,0.5);
 }
 
 .feedback.incorrect {
-    color: white;
-    background-color: var(--incorrect-color);
-    box-shadow: 0 5px 15px rgba(214, 48, 49, 0.4);
-    transform: scale(1);
+  color: white;
+  background: var(--incorrect);
+  transform: scale(1);
+  box-shadow: 0 4px 8px rgba(255,61,113,0.5);
 }
 
 /* Next Button */
 .next-btn {
-    padding: 15px 40px;
-    font-size: 1.3rem;
-    background-color: var(--primary-color);
-    border: none;
-    border-radius: 50px;
-    color: #fff;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    margin-top: 20px;
-    font-weight: bold;
-    box-shadow: 0 8px 0 rgba(0, 0, 0, 0.1);
-    position: relative;
-    overflow: hidden;
-}
-
-.next-btn::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(rgba(255, 255, 255, 0.2), transparent);
-    z-index: 1;
-    pointer-events: none;
+  padding: 12px 30px;
+  font-size: 1.2rem;
+  background: var(--secondary);
+  border: none;
+  border-radius: 50px;
+  color: var(--dark);
+  cursor: pointer;
+  font-weight: bold;
+  box-shadow: 0 5px 0 rgba(0,0,0,0.15);
+  transition: all 0.2s;
 }
 
 .next-btn:hover {
-    transform: translateY(-5px) scale(1.05);
-    box-shadow: 0 12px 0 rgba(0, 0, 0, 0.1);
-    background-color: var(--secondary-color);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 0 rgba(0,0,0,0.15);
+  background: var(--accent);
 }
 
 .next-btn:active {
-    transform: translateY(5px);
-    box-shadow: 0 4px 0 rgba(0, 0, 0, 0.1);
+  transform: translateY(2px);
+  box-shadow: 0 3px 0 rgba(0,0,0,0.15);
 }
 
 /* Score */
 .score-container {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: var(--primary-color);
-    margin-top: 20px;
-    padding: 10px 25px;
-    background-color: rgba(255, 255, 255, 0.7);
-    border-radius: 50px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-    border: 3px dashed var(--accent-color);
-    position: relative;
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: var(--dark);
+  padding: 10px 25px;
+  background: var(--accent);
+  border-radius: 50px;
+  box-shadow: 0 4px 0 rgba(0,0,0,0.1);
 }
 
 .score-container::before {
-    content: '🏆';
-    margin-right: 10px;
-}
-
-/* Footer */
-footer {
-    text-align: center;
-    color: #fff;
-    margin-top: 50px;
-    padding: 20px;
-    font-size: 1rem;
-    text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.2);
-    background-color: rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
+  content: '🏆';
+  margin-right: 10px;
 }
 
 /* End game results */
 #gambar-feedback h3, #suara-feedback h3 {
-    font-size: 2rem;
-    margin-bottom: 15px;
-    color: var(--primary-color);
-    font-family: var(--header-font);
+  font-size: 2rem;
+  margin-bottom: 15px;
+  color: var(--primary);
+  font-family: 'Fredoka One', cursive;
 }
 
 #gambar-feedback p, #suara-feedback p {
-    font-size: 1.3rem;
-    margin-bottom: 15px;
+  font-size: 1.2rem;
+  margin-bottom: 15px;
+}
+
+#restart-gambar, #restart-suara {
+  margin-top: 15px;
+  background: var(--primary);
+  color: var(--light);
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  margin-top: 30px;
+  padding: 15px;
+  font-size: 0.9rem;
+  color: rgba(255,255,255,0.8);
 }
 
 /* Animations */
-@keyframes bounceIn {
-    0% { transform: scale(0.3); opacity: 0; }
-    50% { transform: scale(1.05); opacity: 1; }
-    70% { transform: scale(0.9); }
-    100% { transform: scale(1); }
+@keyframes popIn {
+  0% { transform: scale(0.7); opacity: 0; }
+  70% { transform: scale(1.05); opacity: 1; }
+  100% { transform: scale(1); }
 }
 
 @keyframes shake {
-    0%, 100% { transform: translateX(0); }
-    20%, 60% { transform: translateX(-10px); }
-    40%, 80% { transform: translateX(10px); }
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-8px); }
+  50% { transform: translateX(8px); }
+  75% { transform: translateX(-5px); }
 }
 
 @keyframes pulse {
-    0% { transform: scale(1); }
-    100% { transform: scale(1.05); }
+  0% { transform: scale(1); }
+  100% { transform: scale(1.05); }
 }
 
-@keyframes float {
-    0% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
-    100% { transform: translateY(0); }
-}
+/* Responsive */
+@media (max-width: 600px) {
+  h1 {
+    font-size: 2.2rem;
+  }
+  
+  .menu button {
+    padding: 10px 20px;
+    font-size: 1rem;
+  }
+  
+  .options-container {
+    grid-template-columns: 1fr;
+  }
+  
+  .image-container {
+    width: 230px;
+    height: 230px;
+  }
+  
+  .sound-btn {
+    width: 100px;
+    height: 100px;
+  }
 
-.animated {
-    animation-duration: 1s;
-}
-
-/* Confetti animation for when answer is correct */
-.confetti {
-    position: absolute;
-    width: 15px;
-    height: 15px;
-    background-color: var(--accent-color);
-    opacity: 0;
-}
-
-/* Responsive design */
-@media (max-width: 768px) {
-    h1 {
-        font-size: 2.5rem;
-    }
-    
-    .menu button {
-        padding: 12px 20px;
-        font-size: 1.1rem;
-    }
-    
-    .image-container {
-        width: 250px;
-        height: 250px;
-    }
-    
-    .options-container {
-        grid-template-columns: 1fr;
-    }
-    
-    .feedback {
-        font-size: 1.5rem;
-    }
-}
-
-/* Light animations for decorative elements */
-.floating {
-    animation: float 3s ease-in-out infinite;
-}
-
-/* Add decorative elements */
-.decoration {
-    position: absolute;
-    z-index: -1;
-    opacity: 0.7;
-}
-
-.decoration.star {
-    background-color: var(--accent-color);
-    clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
-}
-
-.decoration.circle {
-    background-color: var(--secondary-color);
-    border-radius: 50%;
-}
-
-.decoration.square {
-    background-color: var(--primary-color);
-    border-radius: 10px;
-    transform: rotate(45deg);
-}
-
-/* Specific animations for results */
-#restart-gambar, #restart-suara {
-    margin-top: 20px;
-    padding: 15px 30px;
-    background-color: var(--secondary-color);
-}
-
-#restart-gambar:hover, #restart-suara:hover {
-    background-color: var(--primary-color);
+  .sound-btn img {
+    width: 50px;
+    height: 50px;
+  }
 }
