@@ -104,11 +104,20 @@ function displaySuaraQuestion(index) {
 // Play current sound
 function playCurrentSound() {
     if (audioElement) {
+        // Add animation to play button
+        const playButton = document.getElementById('play-sound');
+        playButton.classList.add('playing');
+        
         audioElement.currentTime = 0; // Reset to beginning
         audioElement.play().catch(error => {
             console.error('Error playing audio:', error);
             alert('Tidak dapat memutar suara. Pastikan browser Anda mendukung audio.');
         });
+        
+        // Remove animation when audio ends
+        audioElement.onended = function() {
+            playButton.classList.remove('playing');
+        };
     }
 }
 
@@ -154,12 +163,14 @@ function nextSuaraQuestion() {
 
 // End game and show results
 function endTebakSuara() {
+    // Create result container
     const gameContainer = document.querySelector('#tebak-suara-section .game-container');
     
-    // Hide elements
-    document.getElementById('play-sound').style.display = 'none';
+    // Hide game elements
+    document.querySelector('.audio-container').style.display = 'none';
     document.getElementById('suara-options').style.display = 'none';
     document.getElementById('next-suara').style.display = 'none';
+    document.querySelector('#tebak-suara-section .score-container').style.display = 'none';
     
     // Show result
     const feedbackElement = document.getElementById('suara-feedback');
@@ -168,18 +179,37 @@ function endTebakSuara() {
     const totalQuestions = suaraShuffledData.length;
     const percentage = Math.round((suaraScore / totalQuestions) * 100);
     
-    let message = `<h3>Selamat! Permainan Selesai</h3>
-                   <p>Skor Akhir: ${suaraScore} dari ${totalQuestions} (${percentage}%)</p>`;
+    // Create result message with animation
+    let message = `<div class="result-container">`;
+    
+    // Add musical note animations for high scores
+    if (percentage >= 80) {
+        message += `
+            <div class="music-notes">
+                <div class="note">♪</div>
+                <div class="note">♫</div>
+                <div class="note">♬</div>
+                <div class="note">♩</div>
+            </div>
+        `;
+    }
+    
+    message += `<h3>Selamat! Permainan Selesai</h3>
+               <div class="result-score">
+                 <span class="score-number">${suaraScore}</span> dari ${totalQuestions} 
+                 <span class="score-percentage">(${percentage}%)</span>
+               </div>`;
     
     if (percentage >= 80) {
-        message += '<p>Hebat sekali! Kamu sangat pintar! 🏆</p>';
+        message += '<p class="result-message">Hebat sekali! Pendengaranmu sangat tajam! 🌟</p>';
     } else if (percentage >= 60) {
-        message += '<p>Bagus! Terus berlatih ya! 👍</p>';
+        message += '<p class="result-message">Bagus! Terus berlatih mendengarkan ya! 👍</p>';
     } else {
-        message += '<p>Jangan menyerah! Coba lagi ya! 💪</p>';
+        message += '<p class="result-message">Jangan menyerah! Kamu pasti bisa lebih baik! 💪</p>';
     }
     
     message += '<button id="restart-suara" class="next-btn">Main Lagi</button>';
+    message += '</div>';
     
     feedbackElement.innerHTML = message;
     
@@ -187,11 +217,90 @@ function endTebakSuara() {
     setTimeout(() => {
         document.getElementById('restart-suara').addEventListener('click', () => {
             // Reset display
-            document.getElementById('play-sound').style.display = 'flex';
+            document.querySelector('.audio-container').style.display = 'flex';
             document.getElementById('suara-options').style.display = 'grid';
+            document.querySelector('#tebak-suara-section .score-container').style.display = 'block';
             
             // Restart game
             initializeTebakSuara();
         });
     }, 100);
+    
+    // Add CSS rules for sound result screen
+    if (!document.getElementById('sound-result-styles')) {
+        const styleSheet = document.createElement('style');
+        styleSheet.id = 'sound-result-styles';
+        styleSheet.innerHTML = `
+            .playing {
+                animation: pulse-play 0.5s infinite alternate;
+                background: var(--secondary) !important;
+            }
+            
+            @keyframes pulse-play {
+                0% { transform: scale(1); }
+                100% { transform: scale(1.1); }
+            }
+            
+            .music-notes {
+                height: 60px;
+                position: relative;
+                margin-bottom: 20px;
+            }
+            
+            .note {
+                position: absolute;
+                font-size: 30px;
+                color: var(--primary);
+                opacity: 0;
+            }
+            
+            .note:nth-child(1) {
+                left: 30%;
+                animation: float-note 3s ease-in-out infinite 0.5s;
+            }
+            
+            .note:nth-child(2) {
+                left: 45%;
+                animation: float-note 2.5s ease-in-out infinite;
+            }
+            
+            .note:nth-child(3) {
+                left: 60%;
+                animation: float-note 3s ease-in-out infinite 1s;
+            }
+            
+            .note:nth-child(4) {
+                left: 75%;
+                animation: float-note 2.7s ease-in-out infinite 0.7s;
+            }
+            
+            @keyframes float-note {
+                0% {
+                    opacity: 0;
+                    transform: translateY(30px);
+                }
+                50% {
+                    opacity: 1;
+                }
+                100% {
+                    opacity: 0;
+                    transform: translateY(-30px);
+                }
+            }
+            
+            #restart-suara {
+                font-size: 18px;
+                padding: 12px 30px;
+                background: var(--primary);
+                color: white;
+                transition: transform 0.3s, box-shadow 0.3s;
+            }
+            
+            #restart-suara:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 10px 15px rgba(0,0,0,0.2);
+            }
+        `;
+        document.head.appendChild(styleSheet);
+    }
 }
