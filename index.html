@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -9,26 +10,13 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;700&display=swap" rel="stylesheet">
     
-    <!-- CSS Override untuk judul -->
-    <style>
-        #game-title {
-            transform: none !important;
-            -webkit-transform: none !important;
-            -ms-transform: none !important;
-            -moz-transform: none !important;
-        }
-        #game-title::after {
-            transform: none !important;
-            -webkit-transform: none !important;
-            -ms-transform: none !important;
-            -moz-transform: none !important;
-        }
-    </style>
+    <!-- CSS External -->
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
         <header>
-            <h1 id="game-title" style="transform: none !important;">Game Tebak-Tebakan</h1>
+            <h1 id="game-title">Game Tebak-Tebakan</h1>
             <div class="menu">
                 <button id="tebak-gambar-btn" class="active">Tebak Gambar</button>
                 <button id="tebak-suara-btn">Tebak Suara</button>
@@ -60,7 +48,7 @@
                 <div class="game-container">
                     <div class="audio-container">
                         <button id="play-sound" class="sound-btn">
-                            <img src="assets/images/play-button.png" alt="Play">
+                            <img src="/api/placeholder/60/60" alt="Play">
                         </button>
                         <audio id="suara-tebakan" src=""></audio>
                     </div>
@@ -81,8 +69,10 @@
         </footer>
     </div>
 
-    <script src="js/main.js"></script>
-    <script src="js/tebak-gambar.js"></script>
-    <script src="js/tebak-suara.js"></script>
+    <!-- JavaScript Files -->
+    <script src="main.js"></script>
+    <script src="tebak-gambar.js"></script>
+    <script src="tebak-suara.js"></script>
 </body>
 </html>
+```
