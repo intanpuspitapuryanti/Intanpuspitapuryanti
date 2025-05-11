@@ -5,15 +5,27 @@ document.addEventListener('DOMContentLoaded', function() {
     // Event listener untuk jawaban benar
     document.addEventListener('click', function(event) {
         if (event.target.classList.contains('option-btn')) {
-            if (event.target.classList.contains('correct')) {
-                console.log('Correct answer clicked, triggering animation');
-                setTimeout(() => {
+            // Tunggu sebentar agar kelas 'correct' atau 'incorrect' ditambahkan terlebih dahulu
+            setTimeout(() => {
+                console.log('Checking for correct answer');
+                if (event.target.classList.contains('correct')) {
+                    console.log('Correct answer clicked, triggering animation');
                     const feedbackElement = document.querySelector('.feedback.correct');
                     if (feedbackElement) {
                         createConfetti(feedbackElement);
+                    } else {
+                        console.log('Feedback element not found, trying alternative approach');
+                        // Coba temukan elemen feedback dengan cara lain
+                        const gameSection = event.target.closest('.game-section');
+                        if (gameSection) {
+                            const feedbackAlt = gameSection.querySelector('.feedback');
+                            if (feedbackAlt) {
+                                createConfetti(feedbackAlt);
+                            }
+                        }
                     }
-                }, 100);
-            }
+                }
+            }, 100);
         }
     });
 });
@@ -127,23 +139,55 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Animasi saat jawaban benar
     document.addEventListener('click', function(event) {
-        if (event.target.classList.contains('option-btn') && 
-            event.target.textContent === 
-            (currentGambarIndex !== undefined && currentGambarIndex < gambarShuffledData.length ? 
-                gambarShuffledData[currentGambarIndex].correctAnswer : 
-                (currentSuaraIndex !== undefined && currentSuaraIndex < suaraShuffledData.length ? 
-                    suaraShuffledData[currentSuaraIndex].correctAnswer : ''))) {
+        if (event.target.classList.contains('option-btn')) {
+            // Dapatkan jawaban yang benar dari konteks permainan
+            let correctAnswer = '';
             
-            const imageElement = document.getElementById('gambar-tebakan');
-            if (imageElement && imageElement.style.display !== 'none') {
-                imageElement.animate([
-                    { transform: 'scale(1)' },
-                    { transform: 'scale(1.1)' },
-                    { transform: 'scale(1)' }
-                ], {
-                    duration: 500,
-                    iterations: 1
-                });
+            // Cek di mana kita berada (tebak gambar atau tebak suara)
+            const gambarSection = document.getElementById('tebak-gambar-section');
+            const isGambarActive = gambarSection && gambarSection.classList.contains('active');
+            
+            if (isGambarActive && typeof currentGambarIndex !== 'undefined' && gambarShuffledData && 
+                currentGambarIndex < gambarShuffledData.length) {
+                correctAnswer = gambarShuffledData[currentGambarIndex].correctAnswer;
+            } else if (typeof currentSuaraIndex !== 'undefined' && suaraShuffledData && 
+                currentSuaraIndex < suaraShuffledData.length) {
+                correctAnswer = suaraShuffledData[currentSuaraIndex].correctAnswer;
+            }
+            
+            // Jika jawaban benar, animasikan gambar jika ada
+            if (event.target.textContent === correctAnswer) {
+                console.log('Correct answer detected, animating image');
+                
+                // Animasi gambar jika di bagian tebak gambar
+                if (isGambarActive) {
+                    const imageElement = document.getElementById('gambar-tebakan');
+                    if (imageElement) {
+                        imageElement.animate([
+                            { transform: 'scale(1)' },
+                            { transform: 'scale(1.1)' },
+                            { transform: 'scale(1)' }
+                        ], {
+                            duration: 500,
+                            iterations: 1
+                        });
+                    }
+                }
+                
+                // Tampilkan dan animasikan feedback
+                setTimeout(() => {
+                    let feedbackElement;
+                    if (isGambarActive) {
+                        feedbackElement = document.getElementById('gambar-feedback');
+                    } else {
+                        feedbackElement = document.getElementById('suara-feedback');
+                    }
+                    
+                    if (feedbackElement) {
+                        showFeedback(feedbackElement, true, 'Benar!');
+                        createConfetti(feedbackElement);
+                    }
+                }, 50);
             }
         }
     });
