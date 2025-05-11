@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;700&display=swap" rel="stylesheet">
     
-    <!-- CSS External - Corrected Path -->
+    <!-- CSS External -->
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -28,7 +28,8 @@
                 <h2>Tebak Gambar</h2>
                 <div class="game-container">
                     <div class="image-container">
-                        <img id="gambar-tebakan" src="/api/placeholder/280/280" alt="Gambar Tebakan">
+                        <!-- Menggunakan placeholder yang valid -->
+                        <img id="gambar-tebakan" src="assets/images/mobil.jpg" alt="Gambar Tebakan">
                     </div>
                     <div class="options-container" id="gambar-options">
                         <!-- Options will be inserted by JavaScript -->
@@ -36,7 +37,7 @@
                     <div class="feedback" id="gambar-feedback"></div>
                     <button id="next-gambar" class="next-btn">Selanjutnya</button>
                     <div class="score-container">
-                        <p>Skor: <span id="gambar-score">0</span></p>
+                        <span id="gambar-score">0</span>
                     </div>
                 </div>
             </section>
@@ -45,20 +46,19 @@
             <section id="tebak-suara-section" class="game-section">
                 <h2>Tebak Suara</h2>
                 <div class="game-container">
-                   <!-- Replace this section in your index.html -->
-<div class="audio-container">
-    <button id="play-sound" class="sound-btn">
-        <img src="assets/images/play-button.png" alt="Play">
-    </button>
-    <audio id="suara-tebakan" src=""></audio>
-</div>
+                    <div class="audio-container">
+                        <button id="play-sound" class="sound-btn">
+                            <img src="assets/images/play-button.png" alt="Play" width="60" height="60">
+                        </button>
+                        <audio id="suara-tebakan" src=""></audio>
+                    </div>
                     <div class="options-container" id="suara-options">
                         <!-- Options will be inserted by JavaScript -->
                     </div>
                     <div class="feedback" id="suara-feedback"></div>
                     <button id="next-suara" class="next-btn">Selanjutnya</button>
                     <div class="score-container">
-                        <p>Skor: <span id="suara-score">0</span></p>
+                        <span id="suara-score">0</span>
                     </div>
                 </div>
             </section>
@@ -69,8 +69,9 @@
         </footer>
     </div>
 
-    <!-- JavaScript Files - Corrected Paths -->
+    <!-- JavaScript Files -->
     <script src="js/main.js"></script>
+    <script src="js/data.js"></script>
     <script src="js/tebak-gambar.js"></script>
     <script src="js/tebak-suara.js"></script>
     <script src="js/animations.js"></script>
