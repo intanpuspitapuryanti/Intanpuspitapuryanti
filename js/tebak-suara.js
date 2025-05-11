@@ -50,8 +50,6 @@ let audioElement = null;
 
 // Initialize Tebak Suara game
 function initializeTebakSuara() {
-    console.log("Initializing Tebak Suara game"); // Debug log
-    
     // Shuffle the game data array
     suaraShuffledData = shuffleArray(tebakSuaraData);
     currentSuaraIndex = 0;
@@ -68,40 +66,17 @@ function initializeTebakSuara() {
     const playButton = document.getElementById('play-sound');
     playButton.addEventListener('click', playCurrentSound);
     
-    // Make sure all game elements are visible
-    const audioContainer = document.querySelector('.audio-container');
-    if (audioContainer) audioContainer.style.display = 'flex';
-    
-    const optionsContainer = document.getElementById('suara-options');
-    if (optionsContainer) optionsContainer.style.display = 'grid';
-    
-    const scoreContainer = document.querySelector('#tebak-suara-section .score-container');
-    if (scoreContainer) scoreContainer.style.display = 'block';
-    
-    // Clear feedback container
-    const feedbackElement = document.getElementById('suara-feedback');
-    if (feedbackElement) feedbackElement.innerHTML = '';
-    
     // Display first question
     displaySuaraQuestion(currentSuaraIndex);
     
     // Add event listener to "Next" button
-    const nextButton = document.getElementById('next-suara');
-    if (nextButton) {
-        // Remove existing event listeners to prevent duplicates
-        const newButton = nextButton.cloneNode(true);
-        nextButton.parentNode.replaceChild(newButton, nextButton);
-        newButton.addEventListener('click', nextSuaraQuestion);
-    }
+    document.getElementById('next-suara').addEventListener('click', nextSuaraQuestion);
 }
 
 // Display current question
 function displaySuaraQuestion(index) {
-    console.log("Displaying question", index, "of", suaraShuffledData.length); // Debug log
-    
     if (index >= suaraShuffledData.length) {
-        // End of game
-        console.log("End of game reached"); // Debug log
+        // End of game, restart
         endTebakSuara();
         return;
     }
@@ -109,12 +84,7 @@ function displaySuaraQuestion(index) {
     const currentQuestion = suaraShuffledData[index];
     
     // Set audio source
-    if (audioElement) {
-        audioElement.src = currentQuestion.sound;
-        console.log("Set audio source:", currentQuestion.sound); // Debug log
-    } else {
-        console.error("Audio element not found"); // Debug log
-    }
+    audioElement.src = currentQuestion.sound;
     
     // Create shuffled options
     const shuffledOptions = shuffleArray(currentQuestion.options);
@@ -124,14 +94,11 @@ function displaySuaraQuestion(index) {
     
     // Clear previous feedback
     const feedbackElement = document.getElementById('suara-feedback');
-    if (feedbackElement) {
-        feedbackElement.textContent = '';
-        feedbackElement.className = 'feedback';
-    }
+    feedbackElement.textContent = '';
+    feedbackElement.className = 'feedback';
     
     // Hide Next button until answer is selected
-    const nextButton = document.getElementById('next-suara');
-    if (nextButton) nextButton.style.display = 'none';
+    document.getElementById('next-suara').style.display = 'none';
 }
 
 // Play current sound
@@ -139,7 +106,7 @@ function playCurrentSound() {
     if (audioElement) {
         // Add animation to play button
         const playButton = document.getElementById('play-sound');
-        if (playButton) playButton.classList.add('playing');
+        playButton.classList.add('playing');
         
         audioElement.currentTime = 0; // Reset to beginning
         audioElement.play().catch(error => {
@@ -149,7 +116,7 @@ function playCurrentSound() {
         
         // Remove animation when audio ends
         audioElement.onended = function() {
-            if (playButton) playButton.classList.remove('playing');
+            playButton.classList.remove('playing');
         };
     }
 }
@@ -161,8 +128,6 @@ function handleSuaraOptionClick(event) {
     const currentQuestion = suaraShuffledData[currentSuaraIndex];
     const feedbackElement = document.getElementById('suara-feedback');
     const isCorrect = selectedOption === currentQuestion.correctAnswer;
-    
-    console.log("Selected:", selectedOption, "Correct:", currentQuestion.correctAnswer); // Debug log
     
     // Disable all option buttons
     const optionButtons = document.querySelectorAll('#suara-options .option-btn');
@@ -178,20 +143,16 @@ function handleSuaraOptionClick(event) {
     });
     
     // Show feedback
-    if (feedbackElement) {
-        if (isCorrect) {
-            showFeedback(feedbackElement, true, 'Benar! 🎉');
-            suaraScore++;
-            const scoreElement = document.getElementById('suara-score');
-            if (scoreElement) updateScore(scoreElement, suaraScore);
-        } else {
-            showFeedback(feedbackElement, false, `Salah! Jawaban yang benar adalah "${currentQuestion.correctAnswer}" 😞`);
-        }
+    if (isCorrect) {
+        showFeedback(feedbackElement, true, 'Benar! 🎉');
+        suaraScore++;
+        updateScore(document.getElementById('suara-score'), suaraScore);
+    } else {
+        showFeedback(feedbackElement, false, `Salah! Jawaban yang benar adalah "${currentQuestion.correctAnswer}" 😞`);
     }
     
     // Show Next button
-    const nextButton = document.getElementById('next-suara');
-    if (nextButton) nextButton.style.display = 'block';
+    document.getElementById('next-suara').style.display = 'block';
 }
 
 // Move to next question
@@ -202,34 +163,21 @@ function nextSuaraQuestion() {
 
 // End game and show results
 function endTebakSuara() {
-    console.log("Ending Tebak Suara game with score:", suaraScore); // Debug log
+    // Create result container
+    const gameContainer = document.querySelector('#tebak-suara-section .game-container');
     
     // Hide game elements
-    const audioContainer = document.querySelector('.audio-container');
-    if (audioContainer) audioContainer.style.display = 'none';
-    
-    const optionsContainer = document.getElementById('suara-options');
-    if (optionsContainer) optionsContainer.style.display = 'none';
-    
-    const nextButton = document.getElementById('next-suara');
-    if (nextButton) nextButton.style.display = 'none';
-    
-    const scoreContainer = document.querySelector('#tebak-suara-section .score-container');
-    if (scoreContainer) scoreContainer.style.display = 'none';
+    document.querySelector('.audio-container').style.display = 'none';
+    document.getElementById('suara-options').style.display = 'none';
+    document.getElementById('next-suara').style.display = 'none';
+    document.querySelector('#tebak-suara-section .score-container').style.display = 'none';
     
     // Show result
     const feedbackElement = document.getElementById('suara-feedback');
-    if (!feedbackElement) {
-        console.error("Feedback element not found"); // Debug log
-        return;
-    }
-    
     feedbackElement.className = 'feedback';
     
     const totalQuestions = suaraShuffledData.length;
     const percentage = Math.round((suaraScore / totalQuestions) * 100);
-    
-    console.log("Creating result message, percentage:", percentage); // Debug log
     
     // Create result message with animation
     let message = `<div class="result-container">`;
@@ -264,33 +212,18 @@ function endTebakSuara() {
     message += '</div>';
     
     feedbackElement.innerHTML = message;
-    console.log("Result message set:", message.substring(0, 100) + "..."); // Debug log (truncated)
-    
-    // Add CSS in-line to ensure styles are applied
-    const resultContainer = feedbackElement.querySelector('.result-container');
-    if (resultContainer) {
-        resultContainer.style.background = 'white';
-        resultContainer.style.padding = '30px';
-        resultContainer.style.borderRadius = '15px';
-        resultContainer.style.boxShadow = '0 10px 20px rgba(0,0,0,0.2)';
-        resultContainer.style.textAlign = 'center';
-        resultContainer.style.position = 'relative';
-        resultContainer.style.margin = '20px auto';
-        resultContainer.style.maxWidth = '400px';
-        resultContainer.style.animation = 'scaleIn 0.5s ease';
-    }
     
     // Add event listener to restart button
     setTimeout(() => {
-        const restartButton = document.getElementById('restart-suara');
-        console.log("Restart button found:", !!restartButton); // Debug log
-        
-        if (restartButton) {
-            restartButton.addEventListener('click', () => {
-                console.log("Restart button clicked"); // Debug log
-                initializeTebakSuara();
-            });
-        }
+        document.getElementById('restart-suara').addEventListener('click', () => {
+            // Reset display
+            document.querySelector('.audio-container').style.display = 'flex';
+            document.getElementById('suara-options').style.display = 'grid';
+            document.querySelector('#tebak-suara-section .score-container').style.display = 'block';
+            
+            // Restart game
+            initializeTebakSuara();
+        });
     }, 100);
     
     // Add CSS rules for sound result screen
@@ -298,11 +231,6 @@ function endTebakSuara() {
         const styleSheet = document.createElement('style');
         styleSheet.id = 'sound-result-styles';
         styleSheet.innerHTML = `
-            @keyframes scaleIn {
-                0% { transform: scale(0.8); opacity: 0; }
-                100% { transform: scale(1); opacity: 1; }
-            }
-            
             .playing {
                 animation: pulse-play 0.5s infinite alternate;
                 background: var(--secondary) !important;
@@ -360,35 +288,11 @@ function endTebakSuara() {
                 }
             }
             
-            .result-score {
-                font-size: 24px;
-                margin: 20px 0;
-                font-weight: bold;
-            }
-            
-            .score-number {
-                font-size: 48px;
-                color: #6a5acd;
-            }
-            
-            .score-percentage {
-                color: #ff7e5f;
-                font-weight: bold;
-            }
-            
-            .result-message {
-                font-size: 20px;
-                margin-bottom: 30px;
-            }
-            
             #restart-suara {
                 font-size: 18px;
                 padding: 12px 30px;
-                background: #6a5acd;
+                background: var(--primary);
                 color: white;
-                border: none;
-                border-radius: 30px;
-                cursor: pointer;
                 transition: transform 0.3s, box-shadow 0.3s;
             }
             
