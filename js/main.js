@@ -187,3 +187,80 @@ document.addEventListener('DOMContentLoaded', function() {
     // Tangani tombol kembali ke menu
     handleBackToMenuButtons();
 });
+// Variabel untuk elemen backsound
+let backsoundElement = null;
+let isMuted = false; // Untuk melacak status backsound
+
+// Fungsi untuk menginisialisasi backsound
+function initializeBacksound() {
+    backsoundElement = document.getElementById('backsound');
+    
+    // Pastikan volume tidak terlalu keras
+    if (backsoundElement) {
+        backsoundElement.volume = 0.3; // Sesuaikan volume (0.0 - 1.0)
+    }
+    
+    // Tambahkan tombol kontrol suara di header
+    const menuDiv = document.querySelector('.menu');
+    if (menuDiv) {
+        const soundButton = document.createElement('button');
+        soundButton.id = 'sound-control';
+        soundButton.innerHTML = '🔊'; // Ikon suara aktif
+        soundButton.className = 'sound-control-btn';
+        soundButton.title = 'Matikan Musik';
+        
+        // Tambahkan event listener untuk tombol kontrol suara
+        soundButton.addEventListener('click', toggleBacksound);
+        
+        menuDiv.appendChild(soundButton);
+    }
+}
+
+// Fungsi untuk memutar backsound
+function playBacksound() {
+    if (backsoundElement && !isMuted) {
+        // Gunakan promise catch untuk menangani error jika browser tidak mengizinkan autoplay
+        backsoundElement.play().catch(error => {
+            console.log('Autoplay tidak diizinkan:', error);
+            // Update tombol kontrol suara ke status mute
+            updateSoundControlButton(true);
+            isMuted = true;
+        });
+    }
+}
+
+// Fungsi untuk menghentikan backsound
+function pauseBacksound() {
+    if (backsoundElement) {
+        backsoundElement.pause();
+    }
+}
+
+// Fungsi untuk toggle backsound (on/off)
+function toggleBacksound() {
+    const soundButton = document.getElementById('sound-control');
+    
+    isMuted = !isMuted;
+    
+    if (isMuted) {
+        pauseBacksound();
+        updateSoundControlButton(true);
+    } else {
+        playBacksound();
+        updateSoundControlButton(false);
+    }
+}
+
+// Fungsi untuk memperbarui tombol kontrol suara
+function updateSoundControlButton(muted) {
+    const soundButton = document.getElementById('sound-control');
+    if (soundButton) {
+        if (muted) {
+            soundButton.innerHTML = '🔇'; // Ikon suara mati
+            soundButton.title = 'Hidupkan Musik';
+        } else {
+            soundButton.innerHTML = '🔊'; // Ikon suara aktif
+            soundButton.title = 'Matikan Musik';
+        }
+    }
+}
