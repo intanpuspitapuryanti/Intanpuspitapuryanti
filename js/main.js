@@ -179,10 +179,12 @@ function handleBackToMenuButtons() {
     });
 }
 
-// Inisialisasi saat halaman dimuat
 document.addEventListener('DOMContentLoaded', function() {
     // Tambahkan animasi CSS
     addAnimationsCSS();
+    
+    // Inisialisasi backsound
+    initializeBacksound();
     
     // Inisialisasi navigasi tab
     initializeNavigation();
@@ -193,6 +195,9 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Tangani tombol kembali ke menu
     handleBackToMenuButtons();
+    
+    // Putar musik secara otomatis di awal (karena default adalah mode Tebak Gambar)
+    playBacksound();
 });
 // Variabel untuk elemen backsound
 let backsoundElement = null;
