@@ -1,24 +1,44 @@
 // Data for Tebak Suara game
 const tebakSuaraData = [
     {
-        sound: '#', // URLs would be added here
+        sound: 'assets/sounds/suara_kucing.mp3',
         correctAnswer: 'Kucing',
         options: ['Kucing', 'Anjing', 'Singa', 'Harimau']
     },
     {
-        sound: '#',
+        sound: 'assets/sounds/suara_ayam.mp3',
         correctAnswer: 'Ayam',
         options: ['Ayam', 'Burung', 'Bebek', 'Angsa']
     },
     {
-        sound: '#',
+        sound: 'assets/sounds/suara_sapi.mp3',
         correctAnswer: 'Sapi',
         options: ['Sapi', 'Kambing', 'Kuda', 'Kerbau']
     },
     {
-        sound: '#',
+        sound: 'assets/sounds/suara_gajah.mp3',
         correctAnswer: 'Gajah',
         options: ['Gajah', 'Jerapah', 'Badak', 'Harimau']
+    },
+    {
+        sound: 'assets/sounds/suara_monyet.mp3',
+        correctAnswer: 'Monyet',
+        options: ['Monyet', 'Gorila', 'Simpanse', 'Orangutan']
+    },
+    {
+        sound: 'assets/sounds/suara_hujan.mp3',
+        correctAnswer: 'Hujan',
+        options: ['Hujan', 'Air Terjun', 'Sungai', 'Laut']
+    },
+    {
+        sound: 'assets/sounds/suara_petir.mp3',
+        correctAnswer: 'Petir',
+        options: ['Petir', 'Gempa', 'Ledakan', 'Gunung Meletus']
+    },
+    {
+        sound: 'assets/sounds/suara_piano.mp3',
+        correctAnswer: 'Piano',
+        options: ['Piano', 'Gitar', 'Drum', 'Biola']
     }
 ];
 
@@ -108,7 +128,7 @@ function handleSuaraOptionClick(event) {
         // Highlight correct and incorrect answers
         if (button.textContent === currentQuestion.correctAnswer) {
             button.classList.add('correct');
-        } else if (button.textContent === selectedOption && !isCorrect) { 
+        } else if (button.textContent === selectedOption && !isCorrect) {
             button.classList.add('incorrect');
         }
     });
@@ -149,7 +169,7 @@ function endTebakSuara() {
     const percentage = Math.round((suaraScore / totalQuestions) * 100);
     
     let message = `<h3>Selamat! Permainan Selesai</h3>
-                <p>Skor Akhir: ${suaraScore} dari ${totalQuestions} (${percentage}%)</p>`;
+                   <p>Skor Akhir: ${suaraScore} dari ${totalQuestions} (${percentage}%)</p>`;
     
     if (percentage >= 80) {
         message += '<p>Hebat sekali! Kamu sangat pintar! 🏆</p>';
