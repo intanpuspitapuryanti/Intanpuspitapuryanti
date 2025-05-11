@@ -325,3 +325,34 @@ footer {
 }
 
 /* Result styles from JS will be added dynamically */
+function addAnimationsCSS() {
+    if (!document.getElementById('animations-css')) {
+        const styleSheet = document.createElement('style');
+        styleSheet.id = 'animations-css';
+        styleSheet.innerHTML = `
+            /* CSS yang sudah ada */
+            
+            /* Style untuk tombol kontrol suara */
+            .sound-control-btn {
+                width: 40px !important;
+                height: 40px !important;
+                border-radius: 50% !important;
+                font-size: 18px !important;
+                display: flex !important;
+                justify-content: center !important;
+                align-items: center !important;
+                padding: 0 !important;
+                background-color: rgba(255, 255, 255, 0.9) !important;
+                color: var(--primary) !important;
+                cursor: pointer !important;
+                transition: all 0.3s !important;
+            }
+            
+            .sound-control-btn:hover {
+                transform: scale(1.1) !important;
+                background-color: white !important;
+            }
+        `;
+        document.head.appendChild(styleSheet);
+    }
+}
