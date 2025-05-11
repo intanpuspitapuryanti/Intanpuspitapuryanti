@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Media Interaktif Anak - Tebak Gambar dan Tebak Suara</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Media Interaktif Anak</h1>
+            <div class="menu">
+                <button id="tebak-gambar-btn" class="active">Tebak Gambar</button>
+                <button id="tebak-suara-btn">Tebak Suara</button>
+            </div>
+        </header>
+
+        <main>
+            <!-- Tebak Gambar Section -->
+            <section id="tebak-gambar-section" class="game-section active">
+                <h2>Tebak Gambar</h2>
+                <div class="game-container">
+                    <div class="image-container">
+                        <img id="gambar-tebakan" src="" alt="Gambar Tebakan">
+                    </div>
+                    <div class="options-container" id="gambar-options">
+                        <!-- Options will be inserted by JavaScript -->
+                    </div>
+                    <div class="feedback" id="gambar-feedback"></div>
+                    <button id="next-gambar" class="next-btn">Selanjutnya</button>
+                    <div class="score-container">
+                        <p>Skor: <span id="gambar-score">0</span></p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tebak Suara Section -->
+            <section id="tebak-suara-section" class="game-section">
+                <h2>Tebak Suara</h2>
+                <div class="game-container">
+                    <div class="audio-container">
+                        <button id="play-sound" class="sound-btn">
+                            <img src="assets/images/play-button.png" alt="Play">
+                        </button>
+                        <audio id="suara-tebakan" src=""></audio>
+                    </div>
+                    <div class="options-container" id="suara-options">
+                        <!-- Options will be inserted by JavaScript -->
+                    </div>
+                    <div class="feedback" id="suara-feedback"></div>
+                    <button id="next-suara" class="next-btn">Selanjutnya</button>
+                    <div class="score-container">
+                        <p>Skor: <span id="suara-score">0</span></p>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; 2025 Media Interaktif Anak - Dibuat untuk Tugas Kuliah</p>
+        </footer>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script src="js/tebak-gambar.js"></script>
+    <script src="js/tebak-suara.js"></script>
+</body>
+</html>
