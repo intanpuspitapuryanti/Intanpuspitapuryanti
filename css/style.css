@@ -1,6 +1,5 @@
+```css
 /* CSS dengan Tema Game Populer - Mirip Fortnite/Minecraft */
-@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;700&display=swap');
-
 :root {
   --primary: #5D3FD3; /* Ungu */
   --secondary: #00E5FF; /* Cyan */
@@ -24,7 +23,6 @@ body {
   background-attachment: fixed;
   min-height: 100vh;
   color: var(--light);
-  overflow-x: hidden;
 }
 
 .container {
@@ -34,7 +32,6 @@ body {
 }
 
 /* Header Styling */
-/* Header Styling */
 h1 {
   color: var(--light);
   font-size: 3rem;
@@ -42,9 +39,8 @@ h1 {
   margin: 15px 0;
   font-family: 'Fredoka One', cursive;
   text-shadow: 3px 3px 0 var(--primary), 5px 5px 0 rgba(0,0,0,0.2);
-  transform: rotate(0deg) !important; /* Memastikan tidak ada rotasi */
+  transform: none !important;
   position: relative;
-  transform-origin: center center;
 }
 
 h1::after {
@@ -56,7 +52,7 @@ h1::after {
   left: 0;
   background: var(--accent);
   border-radius: 5px;
-  transform: rotate(0deg) !important; /* Memastikan tidak ada rotasi */
+  transform: none !important;
 }
 
 .menu {
@@ -150,13 +146,6 @@ h2 {
   align-items: center;
   background: #fff;
   box-shadow: 0 6px 0 rgba(0,0,0,0.1);
-  transform-style: preserve-3d;
-  perspective: 1000px;
-  transition: transform 0.3s;
-}
-
-.image-container:hover {
-  transform: rotate3d(0, 1, 0, 10deg);
 }
 
 .image-container img {
@@ -164,44 +153,6 @@ h2 {
   max-height: 90%;
   object-fit: contain;
   transition: transform 0.3s;
-}
-
-.image-container:hover img {
-  transform: scale(1.1);
-}
-
-/* Sound Button */
-.audio-container {
-  margin: 20px 0;
-}
-
-.sound-btn {
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  background: var(--accent);
-  border: none;
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  box-shadow: 0 8px 0 rgba(0,0,0,0.15);
-  transition: all 0.2s;
-}
-
-.sound-btn:hover {
-  transform: scale(1.05) translateY(-5px);
-  box-shadow: 0 12px 0 rgba(0,0,0,0.15);
-}
-
-.sound-btn:active {
-  transform: scale(0.95) translateY(5px);
-  box-shadow: 0 4px 0 rgba(0,0,0,0.15);
-}
-
-.sound-btn img {
-  width: 60px;
-  height: 60px;
 }
 
 /* Options */
@@ -228,41 +179,22 @@ h2 {
   overflow: hidden;
 }
 
-.option-btn::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(rgba(255,255,255,0.2), transparent);
-  z-index: 1;
-  pointer-events: none;
-}
-
 .option-btn:hover {
   transform: translateY(-3px);
   box-shadow: 0 8px 0 rgba(0,0,0,0.1);
   border-color: var(--secondary);
 }
 
-.option-btn:active {
-  transform: translateY(2px);
-  box-shadow: 0 3px 0 rgba(0,0,0,0.1);
-}
-
 .option-btn.correct {
   background: var(--correct);
   border-color: var(--correct);
   color: white;
-  animation: pulse 0.5s infinite alternate;
 }
 
 .option-btn.incorrect {
   background: var(--incorrect);
   border-color: var(--incorrect);
   color: white;
-  animation: shake 0.4s;
 }
 
 /* Feedback */
@@ -274,20 +206,17 @@ h2 {
   padding: 10px 30px;
   border-radius: 50px;
   transition: all 0.3s;
-  transform: scale(0);
 }
 
 .feedback.correct {
   color: white;
   background: var(--correct);
-  transform: scale(1);
   box-shadow: 0 4px 8px rgba(0,230,118,0.5);
 }
 
 .feedback.incorrect {
   color: white;
   background: var(--incorrect);
-  transform: scale(1);
   box-shadow: 0 4px 8px rgba(255,61,113,0.5);
 }
 
@@ -311,11 +240,6 @@ h2 {
   background: var(--accent);
 }
 
-.next-btn:active {
-  transform: translateY(2px);
-  box-shadow: 0 3px 0 rgba(0,0,0,0.15);
-}
-
 /* Score */
 .score-container {
   font-size: 1.3rem;
@@ -332,32 +256,23 @@ h2 {
   margin-right: 10px;
 }
 
-/* End game results */
-#gambar-feedback h3, #suara-feedback h3 {
-  font-size: 2rem;
-  margin-bottom: 15px;
-  color: var(--primary);
-  font-family: 'Fredoka One', cursive;
+/* Sound Button */
+.audio-container {
+  margin: 20px 0;
 }
 
-#gambar-feedback p, #suara-feedback p {
-  font-size: 1.2rem;
-  margin-bottom: 15px;
-}
-
-#restart-gambar, #restart-suara {
-  margin-top: 15px;
-  background: var(--primary);
-  color: var(--light);
-}
-
-/* Footer */
-footer {
-  text-align: center;
-  margin-top: 30px;
-  padding: 15px;
-  font-size: 0.9rem;
-  color: rgba(255,255,255,0.8);
+.sound-btn {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 8px 0 rgba(0,0,0,0.15);
+  transition: all 0.2s;
 }
 
 /* Animations */
@@ -365,18 +280,6 @@ footer {
   0% { transform: scale(0.7); opacity: 0; }
   70% { transform: scale(1.05); opacity: 1; }
   100% { transform: scale(1); }
-}
-
-@keyframes shake {
-  0%, 100% { transform: translateX(0); }
-  25% { transform: translateX(-8px); }
-  50% { transform: translateX(8px); }
-  75% { transform: translateX(-5px); }
-}
-
-@keyframes pulse {
-  0% { transform: scale(1); }
-  100% { transform: scale(1.05); }
 }
 
 /* Responsive */
@@ -398,14 +301,5 @@ footer {
     width: 230px;
     height: 230px;
   }
-  
-  .sound-btn {
-    width: 100px;
-    height: 100px;
-  }
-
-  .sound-btn img {
-    width: 50px;
-    height: 50px;
-  }
 }
+```
