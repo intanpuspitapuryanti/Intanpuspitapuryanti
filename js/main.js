@@ -69,6 +69,14 @@ function showFeedback(element, isCorrect, message) {
     } else {
         element.classList.add('incorrect');
     }
+    
+    // Add animation class
+    element.classList.add('animated');
+    
+    // Remove animation class after animation completes
+    setTimeout(() => {
+        element.classList.remove('animated');
+    }, 1000);
 }
 
 function updateScore(scoreElement, scoreValue) {
