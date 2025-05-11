@@ -60,31 +60,23 @@ function initializeTebakSuara() {
     
     // Update score display
     const scoreElement = document.getElementById('suara-score');
-    if (scoreElement) {
-        updateScore(scoreElement, suaraScore);
-    }
+    updateScore(scoreElement, suaraScore);
     
     // Set up play button
     const playButton = document.getElementById('play-sound');
-    if (playButton) {
-        playButton.addEventListener('click', playCurrentSound);
-    }
+    playButton.addEventListener('click', playCurrentSound);
     
     // Display first question
     displaySuaraQuestion(currentSuaraIndex);
     
     // Add event listener to "Next" button
-    const nextButton = document.getElementById('next-suara');
-    if (nextButton) {
-        nextButton.addEventListener('click', nextSuaraQuestion);
-        nextButton.style.display = 'none';
-    }
+    document.getElementById('next-suara').addEventListener('click', nextSuaraQuestion);
 }
 
 // Display current question
 function displaySuaraQuestion(index) {
     if (index >= suaraShuffledData.length) {
-        // End of game, show results
+        // End of game, restart
         endTebakSuara();
         return;
     }
@@ -92,31 +84,21 @@ function displaySuaraQuestion(index) {
     const currentQuestion = suaraShuffledData[index];
     
     // Set audio source
-    if (audioElement) {
-        audioElement.src = currentQuestion.sound;
-    }
+    audioElement.src = currentQuestion.sound;
     
     // Create shuffled options
     const shuffledOptions = shuffleArray(currentQuestion.options);
     
     // Create option buttons
-    const optionsContainer = document.getElementById('suara-options');
-    if (optionsContainer) {
-        createOptionButtons(shuffledOptions, 'suara-options', handleSuaraOptionClick);
-    }
+    createOptionButtons(shuffledOptions, 'suara-options', handleSuaraOptionClick);
     
     // Clear previous feedback
     const feedbackElement = document.getElementById('suara-feedback');
-    if (feedbackElement) {
-        feedbackElement.textContent = '';
-        feedbackElement.className = 'feedback';
-    }
+    feedbackElement.textContent = '';
+    feedbackElement.className = 'feedback';
     
     // Hide Next button until answer is selected
-    const nextButton = document.getElementById('next-suara');
-    if (nextButton) {
-        nextButton.style.display = 'none';
-    }
+    document.getElementById('next-suara').style.display = 'none';
 }
 
 // Play current sound
@@ -124,9 +106,7 @@ function playCurrentSound() {
     if (audioElement) {
         // Add animation to play button
         const playButton = document.getElementById('play-sound');
-        if (playButton) {
-            playButton.classList.add('playing');
-        }
+        playButton.classList.add('playing');
         
         audioElement.currentTime = 0; // Reset to beginning
         audioElement.play().catch(error => {
@@ -136,9 +116,7 @@ function playCurrentSound() {
         
         // Remove animation when audio ends
         audioElement.onended = function() {
-            if (playButton) {
-                playButton.classList.remove('playing');
-            }
+            playButton.classList.remove('playing');
         };
     }
 }
@@ -165,24 +143,16 @@ function handleSuaraOptionClick(event) {
     });
     
     // Show feedback
-    if (feedbackElement) {
-        if (isCorrect) {
-            showFeedback(feedbackElement, true, 'Benar! 🎉');
-            suaraScore++;
-            const scoreElement = document.getElementById('suara-score');
-            if (scoreElement) {
-                updateScore(scoreElement, suaraScore);
-            }
-        } else {
-            showFeedback(feedbackElement, false, `Salah! Jawaban yang benar adalah "${currentQuestion.correctAnswer}" 😞`);
-        }
+    if (isCorrect) {
+        showFeedback(feedbackElement, true, 'Benar! 🎉');
+        suaraScore++;
+        updateScore(document.getElementById('suara-score'), suaraScore);
+    } else {
+        showFeedback(feedbackElement, false, `Salah! Jawaban yang benar adalah "${currentQuestion.correctAnswer}" 😞`);
     }
     
     // Show Next button
-    const nextButton = document.getElementById('next-suara');
-    if (nextButton) {
-        nextButton.style.display = 'block';
-    }
+    document.getElementById('next-suara').style.display = 'block';
 }
 
 // Move to next question
@@ -197,20 +167,13 @@ function endTebakSuara() {
     const gameContainer = document.querySelector('#tebak-suara-section .game-container');
     
     // Hide game elements
-    const audioContainer = document.querySelector('.audio-container');
-    const optionsContainer = document.getElementById('suara-options');
-    const nextButton = document.getElementById('next-suara');
-    const scoreContainer = document.querySelector('#tebak-suara-section .score-container');
-    
-    if (audioContainer) audioContainer.style.display = 'none';
-    if (optionsContainer) optionsContainer.style.display = 'none';
-    if (nextButton) nextButton.style.display = 'none';
-    if (scoreContainer) scoreContainer.style.display = 'none';
+    document.querySelector('.audio-container').style.display = 'none';
+    document.getElementById('suara-options').style.display = 'none';
+    document.getElementById('next-suara').style.display = 'none';
+    document.querySelector('#tebak-suara-section .score-container').style.display = 'none';
     
     // Show result
     const feedbackElement = document.getElementById('suara-feedback');
-    if (!feedbackElement) return;
-    
     feedbackElement.className = 'feedback';
     
     const totalQuestions = suaraShuffledData.length;
@@ -245,45 +208,22 @@ function endTebakSuara() {
         message += '<p class="result-message">Jangan menyerah! Kamu pasti bisa lebih baik! 💪</p>';
     }
     
-    // Tambahkan tombol untuk kembali ke menu utama dan tombol main lagi
-    message += '<div class="result-buttons">';
-    message += '<button id="kembali-menu-suara" class="menu-btn">Kembali ke Menu</button>';
     message += '<button id="restart-suara" class="next-btn">Main Lagi</button>';
-    message += '</div>';
     message += '</div>';
     
     feedbackElement.innerHTML = message;
     
-    // Add event listeners to buttons
+    // Add event listener to restart button
     setTimeout(() => {
-        // Event listener untuk tombol main lagi
-        const restartButton = document.getElementById('restart-suara');
-        if (restartButton) {
-            restartButton.addEventListener('click', () => {
-                // Reset display
-                if (audioContainer) audioContainer.style.display = 'flex';
-                if (optionsContainer) optionsContainer.style.display = 'grid';
-                if (scoreContainer) scoreContainer.style.display = 'block';
-                
-                // Restart game
-                initializeTebakSuara();
-            });
-        }
-        
-        // Event listener untuk tombol kembali ke menu
-        const menuButton = document.getElementById('kembali-menu-suara');
-        if (menuButton) {
-            menuButton.addEventListener('click', () => {
-                // Sembunyikan section Tebak Suara
-                const tebakSuaraSection = document.getElementById('tebak-suara-section');
-                if (tebakSuaraSection) {
-                    tebakSuaraSection.style.display = 'none';
-                }
-                
-                // Tampilkan kembali menu utama
-                document.querySelector('.main-menu').style.display = 'flex';
-            });
-        }
+        document.getElementById('restart-suara').addEventListener('click', () => {
+            // Reset display
+            document.querySelector('.audio-container').style.display = 'flex';
+            document.getElementById('suara-options').style.display = 'grid';
+            document.querySelector('#tebak-suara-section .score-container').style.display = 'block';
+            
+            // Restart game
+            initializeTebakSuara();
+        });
     }, 100);
     
     // Add CSS rules for sound result screen
@@ -348,32 +288,15 @@ function endTebakSuara() {
                 }
             }
             
-            .result-buttons {
-                display: flex;
-                justify-content: center;
-                gap: 15px;
-                flex-wrap: wrap;
-            }
-            
-            #restart-suara, #kembali-menu-suara {
+            #restart-suara {
                 font-size: 18px;
-                padding: 12px 20px;
-                border-radius: 10px;
-                cursor: pointer;
+                padding: 12px 30px;
+                background: var(--primary);
+                color: white;
                 transition: transform 0.3s, box-shadow 0.3s;
             }
             
-            #restart-suara {
-                background: var(--primary);
-                color: white;
-            }
-            
-            #kembali-menu-suara {
-                background: var(--secondary);
-                color: white;
-            }
-            
-            #restart-suara:hover, #kembali-menu-suara:hover {
+            #restart-suara:hover {
                 transform: translateY(-5px);
                 box-shadow: 0 10px 15px rgba(0,0,0,0.2);
             }
