@@ -41,7 +41,7 @@ h1 {
   margin: 15px 0;
   font-family: 'Fredoka One', cursive;
   text-shadow: 3px 3px 0 var(--primary), 5px 5px 0 rgba(0,0,0,0.2);
-  transform: rotate(-2deg);
+  transform: rotate(0deg); /* Menghilangkan kemiringan */
   position: relative;
 }
 
@@ -54,7 +54,7 @@ h1::after {
   left: 0;
   background: var(--accent);
   border-radius: 5px;
-  transform: rotate(2deg);
+  transform: rotate(0deg); /* Menghilangkan kemiringan garis bawah */
 }
 
 .menu {
