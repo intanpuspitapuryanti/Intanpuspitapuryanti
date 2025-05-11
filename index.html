@@ -9,32 +9,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;700&display=swap" rel="stylesheet">
-    <style>
-        /* Additional styles to ensure the feedback container is visible */
-        #gambar-feedback, #suara-feedback {
-            min-height: 100px;
-            margin: 20px 0;
-            width: 100%;
-        }
-        
-        /* Ensure result container styling */
-        .result-container {
-            background: white;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-            text-align: center;
-            position: relative;
-            margin: 20px auto;
-            max-width: 400px;
-        }
-        
-        /* Animation for the result container */
-        @keyframes scaleIn {
-            0% { transform: scale(0.8); opacity: 0; }
-            100% { transform: scale(1); opacity: 1; }
-        }
-    </style>
 </head>
 <body>
     <div class="container">
@@ -92,40 +66,8 @@
         </footer>
     </div>
 
-    <!-- Add a console debug output for development -->
-    <div id="console-debug" style="display: none; position: fixed; bottom: 0; left: 0; right: 0; background: rgba(0,0,0,0.8); color: white; padding: 10px; font-family: monospace; max-height: 200px; overflow: auto;"></div>
-
     <script src="js/main.js"></script>
     <script src="js/tebak-gambar.js"></script>
     <script src="js/tebak-suara.js"></script>
-    <script>
-        // Add debug console for mobile testing
-        if (navigator.userAgent.match(/Mobile|Android|iPhone/i)) {
-            const consoleDebug = document.getElementById('console-debug');
-            consoleDebug.style.display = 'block';
-            
-            const originalConsoleLog = console.log;
-            console.log = function() {
-                const args = Array.from(arguments);
-                originalConsoleLog.apply(console, args);
-                
-                const message = args.map(arg => {
-                    if (typeof arg === 'object') {
-                        return JSON.stringify(arg);
-                    } else {
-                        return arg;
-                    }
-                }).join(' ');
-                
-                const logLine = document.createElement('div');
-                logLine.textContent = message;
-                consoleDebug.appendChild(logLine);
-                consoleDebug.scrollTop = consoleDebug.scrollHeight;
-            };
-            
-            console.error = console.log;
-            console.warn = console.log;
-        }
-    </script>
 </body>
 </html>
