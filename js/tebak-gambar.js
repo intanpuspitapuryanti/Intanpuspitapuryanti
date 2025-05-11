@@ -1,22 +1,22 @@
 // Data for Tebak Gambar game
 const tebakGambarData = [
     {
-        image: 'assets/images/pisang.jpg', // Updated to actual image path
+        image: 'assets/images/pisang.jpg',
         correctAnswer: 'Pisang',
         options: ['Pisang', 'Apel', 'Jeruk', 'Mangga']
     },
     {
-        image: 'assets/images/gajah.jpg', // Updated to actual image path
+        image: 'assets/images/gajah.jpg',
         correctAnswer: 'Gajah',
         options: ['Gajah', 'Jerapah', 'Kuda', 'Singa']
     },
     {
-        image: 'assets/images/kucing.jpg', // Updated to actual image path
+        image: 'assets/images/kucing.jpg',
         correctAnswer: 'Kucing',
         options: ['Kucing', 'Anjing', 'Kelinci', 'Harimau']
     },
     {
-        image: 'assets/images/mobil.jpg', // Updated to actual image path
+        image: 'assets/images/mobil.jpg',
         correctAnswer: 'Mobil',
         options: ['Mobil', 'Sepeda', 'Pesawat', 'Kapal']
     }
@@ -75,4 +75,64 @@ function displayGambarQuestion(index) {
     document.getElementById('next-gambar').style.display = 'none';
 }
 
-// Rest of the code remains the same...
+// Handle option click
+function handleGambarOptionClick(event) {
+    const selectedOption = event.target.textContent;
+    const currentQuestion = gambarShuffledData[currentGambarIndex];
+    const isCorrect = selectedOption === currentQuestion.correctAnswer;
+    
+    // Disable all option buttons
+    const optionButtons = document.querySelectorAll('#gambar-options .option-btn');
+    optionButtons.forEach(button => {
+        button.disabled = true;
+        
+        // Highlight correct and incorrect answers
+        if (button.textContent === currentQuestion.correctAnswer) {
+            button.classList.add('correct');
+        } else if (button.textContent === selectedOption && !isCorrect) {
+            button.classList.add('incorrect');
+        }
+    });
+    
+    // Show feedback
+    const feedbackElement = document.getElementById('gambar-feedback');
+    if (isCorrect) {
+        showFeedback(feedbackElement, true, 'Benar!');
+        gambarScore++;
+        updateScore(document.getElementById('gambar-score'), gambarScore);
+    } else {
+        showFeedback(feedbackElement, false, 'Salah! Jawaban yang benar adalah ' + currentQuestion.correctAnswer);
+    }
+    
+    // Show Next button
+    document.getElementById('next-gambar').style.display = 'block';
+}
+
+// Move to next question
+function nextGambarQuestion() {
+    currentGambarIndex++;
+    displayGambarQuestion(currentGambarIndex);
+}
+
+// End game and restart
+function endTebakGambar() {
+    // Show game over message
+    const feedbackElement = document.getElementById('gambar-feedback');
+    feedbackElement.textContent = `Game selesai! Skor Anda: ${gambarScore}/${gambarShuffledData.length}`;
+    feedbackElement.className = 'feedback';
+    
+    // Clear options
+    document.getElementById('gambar-options').innerHTML = '';
+    
+    // Change next button text to restart
+    const nextButton = document.getElementById('next-gambar');
+    nextButton.textContent = 'Main Lagi';
+    nextButton.style.display = 'block';
+    nextButton.removeEventListener('click', nextGambarQuestion);
+    nextButton.addEventListener('click', function() {
+        nextButton.textContent = 'Selanjutnya';
+        nextButton.removeEventListener('click', arguments.callee);
+        nextButton.addEventListener('click', nextGambarQuestion);
+        initializeTebakGambar();
+    });
+}
