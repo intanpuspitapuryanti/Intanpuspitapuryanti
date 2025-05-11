@@ -3,19 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tebak Gambar & Suara - Game Edukatif</title>
-    <!-- Font Google -->
+    <title>Media Interaktif Anak - Tebak Gambar dan Tebak Suara</title>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Tambahkan font Google -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;700&display=swap" rel="stylesheet">
-    
-    <!-- CSS External -->
-    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+    <!-- Elemen Dekorasi -->
+    <div class="decoration star" style="top: 10%; left: 5%; width: 40px; height: 40px;"></div>
+    <div class="decoration circle" style="top: 20%; right: 10%; width: 30px; height: 30px;"></div>
+    <div class="decoration square" style="bottom: 15%; left: 15%; width: 25px; height: 25px;"></div>
+    <div class="decoration star" style="bottom: 30%; right: 5%; width: 35px; height: 35px;"></div>
+
     <div class="container">
         <header>
-            <h1 id="game-title">Game Tebak-Tebakan</h1>
+            <h1 class="floating">Media Interaktif Anak</h1>
             <div class="menu">
                 <button id="tebak-gambar-btn" class="active">Tebak Gambar</button>
                 <button id="tebak-suara-btn">Tebak Suara</button>
@@ -28,8 +32,7 @@
                 <h2>Tebak Gambar</h2>
                 <div class="game-container">
                     <div class="image-container">
-                        <!-- Menggunakan placeholder yang valid -->
-                        <img id="gambar-tebakan" src="assets/images/mobil.jpg" alt="Gambar Tebakan">
+                        <img id="gambar-tebakan" src="" alt="Gambar Tebakan">
                     </div>
                     <div class="options-container" id="gambar-options">
                         <!-- Options will be inserted by JavaScript -->
@@ -37,7 +40,7 @@
                     <div class="feedback" id="gambar-feedback"></div>
                     <button id="next-gambar" class="next-btn">Selanjutnya</button>
                     <div class="score-container">
-                        <span id="gambar-score">0</span>
+                        <p>Skor: <span id="gambar-score">0</span></p>
                     </div>
                 </div>
             </section>
@@ -48,7 +51,7 @@
                 <div class="game-container">
                     <div class="audio-container">
                         <button id="play-sound" class="sound-btn">
-                            <img src="assets/images/play-button.png" alt="Play" width="60" height="60">
+                            <img src="assets/images/play-button.png" alt="Play">
                         </button>
                         <audio id="suara-tebakan" src=""></audio>
                     </div>
@@ -58,24 +61,20 @@
                     <div class="feedback" id="suara-feedback"></div>
                     <button id="next-suara" class="next-btn">Selanjutnya</button>
                     <div class="score-container">
-                        <span id="suara-score">0</span>
+                        <p>Skor: <span id="suara-score">0</span></p>
                     </div>
                 </div>
             </section>
         </main>
 
         <footer>
-            <p>&copy; 2025 Game Tebak-Tebakan - Media Pembelajaran Interaktif</p>
+            <p>&copy; 2025 Media Interaktif Anak - Dibuat untuk Tugas Kuliah</p>
         </footer>
     </div>
 
-    <!-- JavaScript Files -->
     <script src="js/main.js"></script>
-    <script src="js/data.js"></script>
     <script src="js/tebak-gambar.js"></script>
     <script src="js/tebak-suara.js"></script>
     <script src="js/animations.js"></script>
-    <!-- Tambahkan script perbaikan di akhir untuk override fungsi yang ada -->
-    <script src="js/fix-feedback-solution.js"></script>
 </body>
 </html>
