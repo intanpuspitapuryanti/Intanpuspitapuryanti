@@ -1,42 +1,42 @@
 // Data for Tebak Suara game
 const tebakSuaraData = [
     {
-        sound: 'assets/sounds/kucing.mp3',
+        sound: 'assets/sounds/suara_kucing.mp3',
         correctAnswer: 'Kucing',
         options: ['Kucing', 'Anjing', 'Singa', 'Harimau']
     },
     {
-        sound: 'assets/sounds/ayam.mp3',
+        sound: 'assets/sounds/suara_ayam.mp3',
         correctAnswer: 'Ayam',
         options: ['Ayam', 'Burung', 'Bebek', 'Angsa']
     },
     {
-        sound: 'assets/sounds/sapi.mp3',
+        sound: 'assets/sounds/suara_sapi.mp3',
         correctAnswer: 'Sapi',
         options: ['Sapi', 'Kambing', 'Kuda', 'Kerbau']
     },
     {
-        sound: 'assets/sounds/gajah.mp3',
+        sound: 'assets/sounds/suara_gajah.mp3',
         correctAnswer: 'Gajah',
         options: ['Gajah', 'Jerapah', 'Badak', 'Harimau']
     },
     {
-        sound: 'assets/sounds/monyet.mp3',
+        sound: 'assets/sounds/suara_monyet.mp3',
         correctAnswer: 'Monyet',
         options: ['Monyet', 'Gorila', 'Simpanse', 'Orangutan']
     },
     {
-        sound: 'assets/sounds/hujan.mp3',
+        sound: 'assets/sounds/suara_hujan.mp3',
         correctAnswer: 'Hujan',
         options: ['Hujan', 'Air Terjun', 'Sungai', 'Laut']
     },
     {
-        sound: 'assets/sounds/petir.mp3',
+        sound: 'assets/sounds/suara_petir.mp3',
         correctAnswer: 'Petir',
         options: ['Petir', 'Gempa', 'Ledakan', 'Gunung Meletus']
     },
     {
-        sound: 'assets/sounds/piano.mp3',
+        sound: 'assets/sounds/suara_piano.mp3',
         correctAnswer: 'Piano',
         options: ['Piano', 'Gitar', 'Drum', 'Biola']
     }
@@ -188,3 +188,10 @@ function endTebakSuara() {
         document.getElementById('restart-suara').addEventListener('click', () => {
             // Reset display
             document.getElementById('play-sound').style.display = 'flex';
+            document.getElementById('suara-options').style.display = 'grid';
+            
+            // Restart game
+            initializeTebakSuara();
+        });
+    }, 100);
+}
