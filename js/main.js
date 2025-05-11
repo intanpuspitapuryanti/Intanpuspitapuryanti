@@ -195,13 +195,15 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Tangani tombol kembali ke menu
     handleBackToMenuButtons();
-    
-    // Putar musik secara otomatis di awal (karena default adalah mode Tebak Gambar)
-    playBacksound();
 });
+
+// Variabel untuk elemen backsound
+// Modifikasi untuk js/main.js
+
 // Variabel untuk elemen backsound
 let backsoundElement = null;
 let isMuted = false; // Untuk melacak status backsound
+let userInteracted = false; // Flag untuk melacak interaksi pengguna
 
 // Fungsi untuk menginisialisasi backsound
 function initializeBacksound() {
@@ -222,9 +224,35 @@ function initializeBacksound() {
         soundButton.title = 'Matikan Musik';
         
         // Tambahkan event listener untuk tombol kontrol suara
-        soundButton.addEventListener('click', toggleBacksound);
+        soundButton.addEventListener('click', function() {
+            // Pada interaksi pertama dengan tombol suara, tandai bahwa pengguna telah berinteraksi
+            userInteracted = true;
+            toggleBacksound();
+        });
         
         menuDiv.appendChild(soundButton);
+    }
+    
+    // Tambahkan event listener untuk deteksi interaksi pengguna
+    document.addEventListener('click', handleFirstInteraction);
+    document.addEventListener('keydown', handleFirstInteraction);
+    document.addEventListener('touchstart', handleFirstInteraction);
+}
+
+// Fungsi untuk menangani interaksi pengguna pertama kali
+function handleFirstInteraction() {
+    if (!userInteracted) {
+        userInteracted = true;
+        
+        // Coba putar backsound ketika pengguna berinteraksi
+        if (!isMuted) {
+            playBacksound();
+        }
+        
+        // Hapus event listener setelah interaksi pertama
+        document.removeEventListener('click', handleFirstInteraction);
+        document.removeEventListener('keydown', handleFirstInteraction);
+        document.removeEventListener('touchstart', handleFirstInteraction);
     }
 }
 
@@ -234,9 +262,9 @@ function playBacksound() {
         // Gunakan promise catch untuk menangani error jika browser tidak mengizinkan autoplay
         backsoundElement.play().catch(error => {
             console.log('Autoplay tidak diizinkan:', error);
-            // Update tombol kontrol suara ke status mute
+            // Update tombol kontrol suara ke status mute jika terjadi error
             updateSoundControlButton(true);
-            isMuted = true;
+            // JANGAN mengubah isMuted di sini, agar musik bisa dimainkan pada interaksi berikutnya
         });
     }
 }
@@ -276,3 +304,90 @@ function updateSoundControlButton(muted) {
         }
     }
 }
+
+// Tambahkan inisialisasi untuk tombol-tombol tab
+function initializeNavigation() {
+    const tebakGambarBtn = document.getElementById('tebak-gambar-btn');
+    const tebakSuaraBtn = document.getElementById('tebak-suara-btn');
+    const tebakGambarSection = document.getElementById('tebak-gambar-section');
+    const tebakSuaraSection = document.getElementById('tebak-suara-section');
+    
+    if (tebakGambarBtn && tebakSuaraBtn && tebakGambarSection && tebakSuaraSection) {
+        // Event listener untuk tombol Tebak Gambar
+        tebakGambarBtn.addEventListener('click', function() {
+            // Aktifkan tombol Tebak Gambar
+            tebakGambarBtn.classList.add('active');
+            tebakSuaraBtn.classList.remove('active');
+            
+            // Tampilkan section Tebak Gambar
+            tebakGambarSection.classList.add('active');
+            tebakSuaraSection.classList.remove('active');
+            
+            // Tandai bahwa pengguna telah berinteraksi
+            userInteracted = true;
+            
+            // Putar backsound jika tidak di-mute
+            if (!isMuted) {
+                playBacksound();
+            }
+        });
+        
+        // Event listener untuk tombol Tebak Suara
+        tebakSuaraBtn.addEventListener('click', function() {
+            // Aktifkan tombol Tebak Suara
+            tebakSuaraBtn.classList.add('active');
+            tebakGambarBtn.classList.remove('active');
+            
+            // Tampilkan section Tebak Suara
+            tebakSuaraSection.classList.add('active');
+            tebakGambarSection.classList.remove('active');
+            
+            // Tandai bahwa pengguna telah berinteraksi
+            userInteracted = true;
+            
+            // Matikan backsound untuk mode Tebak Suara
+            pauseBacksound();
+        });
+    }
+}
+
+// Saat dokumen dimuat, JANGAN langsung memainkan musik
+document.addEventListener('DOMContentLoaded', function() {
+    // Tambahkan animasi CSS
+    addAnimationsCSS();
+    
+    // Inisialisasi backsound
+    initializeBacksound();
+    
+    // Inisialisasi navigasi tab
+    initializeNavigation();
+    
+    // Inisialisasi game
+    initializeTebakGambar();
+    initializeTebakSuara();
+    
+    // Tangani tombol kembali ke menu
+    handleBackToMenuButtons();
+    
+    // PENTING: Jangan putar musik otomatis
+    // playBacksound(); -- hapus atau komentar baris ini
+    
+    // Sebagai gantinya, tambahkan pesan petunjuk untuk pengguna
+    const header = document.querySelector('header');
+    if (header) {
+        const soundMessage = document.createElement('p');
+        soundMessage.className = 'sound-message';
+        soundMessage.textContent = 'Klik di mana saja untuk mengaktifkan musik';
+        soundMessage.style.fontSize = '0.8rem';
+        soundMessage.style.opacity = '0.7';
+        soundMessage.style.marginTop = '5px';
+        
+        // Hilangkan pesan setelah interaksi pertama
+        document.addEventListener('click', function hideMessage() {
+            soundMessage.style.display = 'none';
+            document.removeEventListener('click', hideMessage);
+        }, {once: true});
+        
+        header.appendChild(soundMessage);
+    }
+});
